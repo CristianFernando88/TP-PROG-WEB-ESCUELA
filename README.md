@@ -18,7 +18,7 @@ Podés acceder a la documentación completa (Puntos 1 al 5: Intereses, Elección
 ## 🎨 2. Proyecto Interactivo en Figma
 El diseño de la interfaz y las 12 secciones/páginas en alta fidelidad se encuentran disponibles en Figma:
 
-👉 [Ver Proyecto en Figma](https://www.figma.com/design/TqPFWsBt4u16bGaeyrBs5e/Untitled?node-id=0-1&t=j3WXlqkjwbH0qvKA-1)
+👉 [Ver Proyecto en Figma](https://www.figma.com/make/8HDHTztRUUtWocPcrxmL1h/Educational-School-Website-Design?t=oX5nv12SgkgjRwFn-1)
 
 ---
 
