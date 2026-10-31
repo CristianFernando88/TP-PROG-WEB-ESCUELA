@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Horizonte - Quiénes Somos</title>
+    <!-- Meta SEO básicos -->
+    <meta name="description" content="Conoce la historia del Colegio Horizonte. Desde 1982 construyendo una propuesta educativa centrada en la persona y la comunidad.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="container-fluid p-3">
+        <div class="row g-3">
+            
+            <!-- ASIDE FLOTANTE IZQUIERDO -->
+            <aside class="col-md-3 col-lg-2 d-md-block sidebar-flotante p-3 rounded-4 d-flex flex-column justify-content-between">
+                <div>
+                    <!-- Logo / Identidad -->
+                    <div class="d-flex align-items-center mb-4 px-2">
+                        <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 40px; height: 40px;">
+                            H
+                        </div>
+                        <div>
+                            <span class="d-block small text-muted lh-1">Colegio</span>
+                            <span class="fw-bold fs-6 text-dark">Horizonte</span>
+                        </div>
+                    </div>
+
+                    <!-- Menú de Navegación -->
+                    <nav aria-label="Menú Principal">
+                        <ul class="nav flex-column gap-1">
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link">Inicio</a>
+                            </li>
+                            
+                            <!-- Menú Desplegable Institucional (ABIERTO) -->
+                            <li class="nav-item">
+                                <a class="nav-link d-flex justify-content-between align-items-center fw-semibold text-dark" data-bs-toggle="collapse" href="#menuInstitucional" role="button" aria-expanded="true" aria-controls="menuInstitucional">
+                                    <span>Institucional</span>
+                                    <i class="bi bi-chevron-up small"></i>
+                                </a>
+                                <div class="collapse show ps-3 mt-1" id="menuInstitucional">
+                                    <ul class="nav flex-column gap-1 border-start border-secondary border-opacity-25 ps-2">
+                                        <li class="nav-item">
+                                            <a href="autoridades.html" class="nav-link text-muted py-1 px-2">Autoridades</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="quienes-somos.html" class="nav-link active bg-white rounded-3 shadow-sm py-1 px-2 d-flex justify-content-between align-items-center fw-semibold text-dark">
+                                                <span>Quiénes somos</span>
+                                                <i class="bi bi-dot fs-5"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link text-muted py-1 px-2">Misión y valores</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link text-muted py-1 px-2">Documentos</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
+                                    <span>Propuesta educativa</span>
+                                    <i class="bi bi-chevron-down small"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Pastoral</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Noticias</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Admisión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="contacto.html" class="nav-link">Contacto y ubicación</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Footer del Aside (Contacto y Redes Verticales) -->
+                <div class="mt-auto pt-3 border-top border-secondary border-opacity-10">
+                    <a href="mailto:hola@horizonte.edu.ar" class="small text-muted text-decoration-none d-block mb-3 text-truncate">
+                        <i class="bi bi-envelope me-1"></i> hola@horizonte.edu.ar
+                    </a>
+                    <div class="d-flex flex-column gap-2">
+                        <a href="#" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-instagram me-2"></i> Instagram</a>
+                        <a href="#" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-facebook me-2"></i> Facebook</a>
+                        <a href="#" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-youtube me-2"></i> YouTube</a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <main class="col-md-9 col-lg-10 ms-sm-auto px-md-3">
+                
+                <!-- Breadcrumbs y Header superior -->
+                <header class="d-flex justify-content-between align-items-center py-2 mb-4 border-bottom border-light">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 small">
+                            <li class="breadcrumb-item text-muted">Institucional</li>
+                            <li class="breadcrumb-item text-muted">Quiénes somos</li>
+                            <li class="breadcrumb-item active fw-medium text-dark" aria-current="page">Historia</li>
+                        </ol>
+                    </nav>
+                    <div class="d-flex gap-3 align-items-center">
+                        <a href="#" class="text-dark text-decoration-none small fw-medium"><i class="bi bi-person me-1"></i> Portal familias</a>
+                        <a href="#" class="btn btn-dark btn-sm rounded-pill px-3 py-2 fw-medium" style="background-color: #1A3024;">Inscripciones 2026</a>
+                    </div>
+                </header>
+
+                <!-- Encabezado de la Sección -->
+                <section class="mb-4">
+                    <span class="text-uppercase text-muted small fw-bold tracking-wider">Institucional · Quiénes somos</span>
+                    <h1 class="display-5 fw-bold text-dark mt-1 mb-0" style="letter-spacing: -1px;">Una historia que sigue creciendo</h1>
+                </section>
+
+                <!-- Contenido Principal: Texto e Imagen -->
+                <section class="card card-custom p-4 p-lg-5 bg-white mb-5">
+                    <div class="row align-items-center">
+                        
+                        <!-- Columna Izquierda: Historia y Línea de Tiempo -->
+                        <div class="col-lg-7 pe-lg-4 mb-4 mb-lg-0">
+                            <h2 class="h3 fw-bold text-dark mb-3">Nacimos para transformar</h2>
+                            <p class="text-muted mb-3" style="line-height: 1.6;">
+                                Desde 1982, el Colegio Horizonte construye una propuesta educativa centrada en la persona. Comenzamos con un pequeño grupo de familias y docentes convencidos de que aprender también es encontrarse.
+                            </p>
+                            <p class="text-muted mb-4" style="line-height: 1.6;">
+                                Hoy somos una comunidad que reúne tres niveles educativos, una mirada pastoral abierta y proyectos que conectan el aula con el mundo.
+                            </p>
+
+                            <!-- Línea de Tiempo / Hitos -->
+                            <div class="mt-4 pt-2">
+                                <!-- Hito 1 -->
+                                <div class="py-3 border-bottom border-light d-flex align-items-center justify-content-between">
+                                    <span class="fw-bold fs-5 text-dark font-monospace" style="width: 90px;">1982</span>
+                                    <span class="text-muted flex-grow-1 ms-3">Fundación del colegio</span>
+                                </div>
+                                <!-- Hito 2 -->
+                                <div class="py-3 border-bottom border-light d-flex align-items-center justify-content-between">
+                                    <span class="fw-bold fs-5 text-dark font-monospace" style="width: 90px;">1998</span>
+                                    <span class="text-muted flex-grow-1 ms-3">Apertura del Nivel Secundario</span>
+                                </div>
+                                <!-- Hito 3 -->
+                                <div class="py-3 d-flex align-items-center justify-content-between">
+                                    <span class="fw-bold fs-5 text-dark font-monospace" style="width: 90px;">2025</span>
+                                    <span class="text-muted flex-grow-1 ms-3">Más de 850 estudiantes</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Columna Derecha: Imagen Institucional -->
+                        <div class="col-lg-5">
+                            <img src="img/historia-colegio.jpg" alt="Estudiantes y docentes compartiendo en el Colegio Horizonte" class="img-fluid rounded-4 shadow-sm w-100 object-fit-cover" style="height: 420px;">
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
