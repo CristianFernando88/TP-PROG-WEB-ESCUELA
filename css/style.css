@@ -1,0 +1,101 @@
+:root {
+    --bg-sidebar: #E8F0EC;
+    --border-sidebar: #D8E2DC;
+    --color-primary: #1A3024;
+    --bg-main: #F8F9FA;
+}
+
+body {
+    background-color: var(--bg-main);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Sidebar flotante izquierdo */
+.sidebar-flotante {
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border-sidebar);
+}
+
+@media (min-width: 768px) {
+    .sidebar-flotante {
+        min-height: 97vh;
+        position: sticky;
+        top: 1rem;
+    }
+}
+
+/* Enlaces del menú lateral */
+.sidebar-flotante .nav-link {
+    color: #4A5568;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.sidebar-flotante .nav-link:hover,
+.sidebar-flotante .nav-link.active {
+    background-color: #D8E2DC;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Estado visual de las pestañas de niveles en Admisión */
+#nivelesTab .nav-link {
+    color: #4A5568;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-sidebar);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+#nivelesTab .nav-link.active {
+    color: #FFFFFF;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* Botones de redes sociales del aside */
+.social-btn {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-sidebar);
+    color: #2D3748;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    transition: background-color 0.2s;
+}
+
+.social-btn:hover {
+    background-color: #D8E2DC;
+    color: var(--color-primary);
+}
+
+/* Tarjetas y contenedores principales */
+.card-custom {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.04);
+}
+
+.badge-years {
+    position: absolute;
+    bottom: -15px;
+    left: 30px;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+}
+
+.btn-dark-custom {
+    background-color: #1A3024;
+    color: white;
+    border-radius: 2rem;
+    padding: 0.6rem 1.5rem;
+}
+
+.btn-dark-custom:hover {
+    background-color: #2C4A3A;
+    color: white;
+}
