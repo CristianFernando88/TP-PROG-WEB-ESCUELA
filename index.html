@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
     <title>Colegio Horizonte - Inicio</title>
     <!-- Meta SEO básicos -->
     <meta name="description" content="Página oficial del Colegio Horizonte. Comunidad educativa que acompaña a cada estudiante con cercanía, excelencia y valores.">
@@ -20,86 +21,38 @@
             
             <!-- ASIDE FLOTANTE IZQUIERDO -->
             <aside class="col-md-3 col-lg-2 d-md-block sidebar-flotante p-3 rounded-4 d-flex flex-column justify-content-between">
-                <div>
-                    <!-- Logo / Identidad -->
-                    <div class="d-flex align-items-center mb-4 px-2">
-                        <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 40px; height: 40px;">
-                            H
-                        </div>
-                        <div>
-                            <span class="d-block small text-muted lh-1">Colegio</span>
-                            <span class="fw-bold fs-6 text-dark">Horizonte</span>
-                        </div>
-                    </div>
-
-                    <!-- Menú de Navegación -->
-                    <nav aria-label="Menú Principal">
-                        <ul class="nav flex-column gap-1">
-                            <li class="nav-item">
-                                <a href="index.html" class="nav-link">Inicio</a>
-                            </li>
-                            
-                            <!-- Menú Desplegable Institucional (ABIERTO) -->
-                            <li class="nav-item">
-                                <a class="nav-link d-flex justify-content-between align-items-center fw-semibold text-dark" data-bs-toggle="collapse" href="#menuInstitucional" role="button" aria-expanded="true" aria-controls="menuInstitucional">
-                                    <span>Institucional</span>
-                                    <i class="bi bi-chevron-up small"></i>
-                                </a>
-                                <div class="collapse show ps-3 mt-1" id="menuInstitucional">
-                                    <ul class="nav flex-column gap-1 border-start border-secondary border-opacity-25 ps-2">
-                                        <li class="nav-item">
-                                            <a href="autoridades.html" class="nav-link active bg-white rounded-3 shadow-sm py-1 px-2 d-flex justify-content-between align-items-center fw-semibold text-dark">
-                                                <span>Autoridades</span>
-                                                <i class="bi bi-dot fs-5"></i>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="quienes-somos.html" class="nav-link text-muted py-1 px-2">Quiénes somos</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="mision-valores.html" class="nav-link text-muted py-1 px-2">Misión y valores</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="documentos.html" class="nav-link text-muted py-1 px-2">Documentos</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
-                                    <span>Propuesta educativa</span>
-                                    <i class="bi bi-chevron-down small"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pastoral.html" class="nav-link">Pastoral</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="noticias.html" class="nav-link">Noticias</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">Admisión</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="contacto.html" class="nav-link">Contacto y ubicación</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
-                <!-- Footer del Aside (Contacto y Redes Verticales) -->
-                <div class="mt-auto pt-3 border-top border-secondary border-opacity-10">
-                    <a href="mailto:hola@horizonte.edu.ar" class="small text-muted text-decoration-none d-block mb-3 text-truncate">
-                        <i class="bi bi-envelope me-1"></i> hola@horizonte.edu.ar
-                    </a>
-                    <div class="d-flex flex-column gap-2">
-                        <a href="#" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-instagram me-2"></i> Instagram</a>
-                        <a href="#" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-facebook me-2"></i> Facebook</a>
-                        <a href="#" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-youtube me-2"></i> YouTube</a>
-                    </div>
-                </div>
-            </aside>
+  <div>
+    <div class="d-flex align-items-center mb-4 px-2">
+      <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 40px; height: 40px;">H</div>
+      <div><span class="d-block small text-muted lh-1">Colegio</span><span class="fw-bold fs-6 text-dark">Horizonte</span></div>
+    </div>
+    <nav aria-label="Menú Principal">
+      <ul class="nav flex-column gap-1">
+        <li class="nav-item"><a href="index.html" class="nav-link active bg-white rounded-3 shadow-sm fw-semibold text-dark" aria-current="page">Inicio</a></li>
+        <li class="nav-item">
+          <button class="nav-link d-flex justify-content-between align-items-center fw-semibold text-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#menuInstitucional" aria-expanded="false" aria-controls="menuInstitucional"><span>Institucional</span><i class="bi bi-chevron-down small"></i></button>
+          <div class="collapse ps-3 mt-1" id="menuInstitucional"><ul class="nav flex-column gap-1 border-start border-secondary border-opacity-25 ps-2"><li class="nav-item"><a href="autoridades.html" class="nav-link py-1 px-2">Autoridades</a></li><li class="nav-item"><a href="quienes-somos.html" class="nav-link py-1 px-2">Quiénes somos</a></li><li class="nav-item"><a href="mision-valores.html" class="nav-link py-1 px-2">Misión y valores</a></li><li class="nav-item"><a href="documentos.html" class="nav-link py-1 px-2">Documentos</a></li></ul></div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link d-flex justify-content-between align-items-center fw-semibold text-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#menuPropuesta" aria-expanded="false" aria-controls="menuPropuesta"><span>Propuesta educativa</span><i class="bi bi-chevron-down small"></i></button>
+          <div class="collapse ps-3 mt-1" id="menuPropuesta"><ul class="nav flex-column gap-1 border-start border-secondary border-opacity-25 ps-2"><li class="nav-item"><a href="nivel-inicial.html" class="nav-link py-1 px-2">Nivel Inicial</a></li><li class="nav-item"><a href="nivel-primario.html" class="nav-link py-1 px-2">Nivel Primario</a></li><li class="nav-item"><a href="nivel-secundario.html" class="nav-link py-1 px-2">Nivel Secundario</a></li></ul></div>
+        </li>
+        <li class="nav-item"><a href="pastoral.html" class="nav-link">Pastoral</a></li>
+        <li class="nav-item"><a href="noticias.html" class="nav-link">Noticias</a></li>
+        <li class="nav-item"><a href="admision.html" class="nav-link">Admisión</a></li>
+        <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto y ubicación</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="mt-auto pt-3 border-top border-secondary border-opacity-10">
+    <a href="mailto:hola@colegiohorizonte.edu.ar" class="small text-muted text-decoration-none d-block mb-3 text-truncate"><i class="bi bi-envelope me-1"></i> hola@colegiohorizonte.edu.ar</a>
+    <div class="d-flex flex-column gap-2">
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-instagram me-2"></i> Instagram</a>
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-facebook me-2"></i> Facebook</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-btn d-flex align-items-center px-3 py-2"><i class="bi bi-youtube me-2"></i> YouTube</a>
+    </div>
+  </div>
+</aside>
             <!-- CONTENIDO PRINCIPAL -->
             <main class="col-md-9 col-lg-10 ms-sm-auto px-md-3">
                 
@@ -107,8 +60,8 @@
                 <header class="d-flex justify-content-between align-items-center py-2 mb-4 border-bottom border-light">
                     <span class="text-muted small">Inicio</span>
                     <div class="d-flex gap-3 align-items-center">
-                        <a href="#" class="text-dark text-decoration-none small fw-medium"><i class="bi bi-person me-1"></i> Portal familias</a>
-                        <a href="#" class="btn btn-dark btn-sm rounded-pill px-3 py-2 fw-medium" style="background-color: #1A3024;">Inscripciones 2026</a>
+                        <a href="contacto.html" class="text-dark text-decoration-none small fw-medium"><i class="bi bi-person me-1"></i> Portal familias</a>
+                        <a href="admision.html" class="btn btn-dark btn-sm rounded-pill px-3 py-2 fw-medium" style="background-color: #1A3024;">Inscripciones 2026</a>
                     </div>
                 </header>
 
@@ -119,7 +72,7 @@
                             <span class="text-uppercase text-muted small fw-bold tracking-wider">Bienvenidos al Colegio Horizonte</span>
                             <h1 class="display-5 fw-bold text-dark my-3" style="letter-spacing: -1px;">Educar es abrir caminos hacia el futuro.</h1>
                             <p class="text-muted mb-4">Una comunidad educativa que acompaña a cada estudiante con cercanía, excelencia y valores.</p>
-                            <a href="#" class="btn btn-dark-custom fw-medium text-decoration-none d-inline-flex align-items-center">
+                            <a href="nivel-inicial.html" class="btn btn-dark-custom fw-medium text-decoration-none d-inline-flex align-items-center">
                                 Conocé nuestra propuesta <i class="bi bi-arrow-right ms-2"></i>
                             </a>
                             <div class="mt-4 pt-3 text-muted small">
@@ -127,7 +80,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6 position-relative">
-                            <img src="img/hero-estudiantes.jpg" alt="Estudiantes en el aula del Colegio Horizonte" class="img-fluid rounded-4 shadow-sm w-100 object-fit-cover" style="height: 380px;">
+                            <img width="800" height="500" src="img/hero-estudiantes.svg" alt="Ilustración de muestra de estudiantes en un aula" class="img-fluid rounded-4 shadow-sm w-100 object-fit-cover" style="height: 380px;">
                             
                             <!-- Tarjeta flotante +40 años -->
                             <div class="badge-years d-none d-sm-block">
@@ -145,14 +98,14 @@
                             <span class="text-uppercase text-muted small fw-bold">Actualidad</span>
                             <h2 class="h4 fw-bold text-dark m-0">La escuela sucede todos los días</h2>
                         </div>
-                        <a href="#" class="text-dark small text-decoration-none fw-semibold">Ver todas las noticias <i class="bi bi-arrow-right"></i></a>
+                        <a href="noticias.html" class="text-dark small text-decoration-none fw-semibold">Ver todas las noticias <i class="bi bi-arrow-right"></i></a>
                     </div>
 
                     <div class="row g-3">
                         <!-- Noticia 1 -->
                         <div class="col-md-4">
                             <article class="card card-custom bg-white h-100 p-3">
-                                <img src="img/noticia-1.jpg" alt="Feria de Ciencias" class="rounded-3 mb-3 object-fit-cover" style="height: 140px;">
+                                <img width="800" height="500" src="img/noticia-1.svg" alt="Ilustración de muestra para la Feria de Ciencias" class="rounded-3 mb-3 object-fit-cover" style="height: 140px;">
                                 <div class="card-body p-0">
                                     <span class="text-muted" style="font-size: 0.75rem;">12 JUN</span>
                                     <h3 class="h6 fw-bold text-dark mt-1">Feria de Ciencias 2025</h3>
@@ -163,7 +116,7 @@
                         <!-- Noticia 2 -->
                         <div class="col-md-4">
                             <article class="card card-custom bg-white h-100 p-3">
-                                <img src="img/noticia-2.jpg" alt="Encuentro con las familias" class="rounded-3 mb-3 object-fit-cover" style="height: 140px;">
+                                <img width="800" height="500" src="img/noticia-2.svg" alt="Ilustración de muestra para el encuentro con las familias" class="rounded-3 mb-3 object-fit-cover" style="height: 140px;">
                                 <div class="card-body p-0">
                                     <span class="text-muted" style="font-size: 0.75rem;">08 JUN</span>
                                     <h3 class="h6 fw-bold text-dark mt-1">Encuentro con las familias</h3>
@@ -174,7 +127,7 @@
                         <!-- Noticia 3 -->
                         <div class="col-md-4">
                             <article class="card card-custom bg-white h-100 p-3">
-                                <img src="img/noticia-3.jpg" alt="Olimpíadas deportivas" class="rounded-3 mb-3 object-fit-cover" style="height: 140px;">
+                                <img width="800" height="500" src="img/noticia-3.svg" alt="Ilustración de muestra para una jornada deportiva" class="rounded-3 mb-3 object-fit-cover" style="height: 140px;">
                                 <div class="card-body p-0">
                                     <span class="text-muted" style="font-size: 0.75rem;">30 MAY</span>
                                     <h3 class="h6 fw-bold text-dark mt-1">Olimpíadas deportivas</h3>

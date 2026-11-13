@@ -14,9 +14,14 @@ body {
 .sidebar-flotante {
     background-color: var(--bg-sidebar);
     border: 1px solid var(--border-sidebar);
-    min-height: 97vh;
-    position: sticky;
-    top: 1rem;
+}
+
+@media (min-width: 768px) {
+    .sidebar-flotante {
+        min-height: 97vh;
+        position: sticky;
+        top: 1rem;
+    }
 }
 
 /* Enlaces del menú lateral */

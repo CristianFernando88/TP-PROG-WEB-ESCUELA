@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="title">
+<title id="title">Ilustraci&#243;n de muestra: Feria de Ciencias</title>
+<rect width="800" height="500" rx="32" fill="#e4eee6"/>
+<circle cx="650" cy="115" r="58" fill="#ffffff" opacity=".55"/>
+<path d="M0 370 Q180 295 360 375 T800 350 V500 H0Z" fill="#ffffff" opacity=".62"/>
+<path d="M245 330 Q400 280 555 330 V405 Q400 360 245 405Z" fill="#fff" stroke="#789b82" stroke-width="8" stroke-linejoin="round"/>
+<path d="M400 325V400" stroke="#789b82" stroke-width="7"/>
+<path d="M285 350h85m-85 20h70m75-20h85m-85 20h70" stroke="#789b82" stroke-width="6" stroke-linecap="round" opacity=".72"/>
+<circle cx="355" cy="190" r="48" fill="#f2c9a5"/><circle cx="450" cy="190" r="48" fill="#d9ad8b"/>
+<path d="M285 305q12-75 70-75t70 75m-20 0q12-75 70-75t70 75" fill="#789b82"/>
+<text x="400" y="455" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#34483a">Ilustraci&#243;n de muestra: Feria de Ciencias</text>
+</svg>
