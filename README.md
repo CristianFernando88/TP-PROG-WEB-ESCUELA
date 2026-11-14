@@ -1,6 +1,13 @@
 
 # Trabajo Práctico: Diseño UI/UX - Sitio Web Escolar
 
+## Estructura del monorepo
+
+- `landing-escuela/`: sitio estático del TP N.º 3, con sus páginas, estilos, scripts, imágenes y documentos.
+- `web-app-escuela/`: ubicación prevista para la aplicación dinámica en PHP del TP N.º 4.
+
+El `index.html` de la raíz redirige a la portada del sitio estático para facilitar la publicación en GitHub Pages.
+
 **Alumno:** Cristian Fernando Barrios
 
 **Materia:** Programación Web
