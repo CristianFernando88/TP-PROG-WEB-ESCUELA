@@ -1,6 +1,11 @@
 <?php
-// Detectar la página actual para marcar el ítem activo en el menú (Requisito SSR del TP4)
-$current_page = basename($_SERVER['SCRIPT_NAME']);
+$current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$navigationItems = [
+    ['page' => 'dashboard', 'file' => 'dashboard.php', 'label' => 'Inicio', 'icon' => 'bi-house-door'],
+    ['page' => 'niveles', 'file' => 'niveles.php', 'label' => 'Niveles y cursos', 'icon' => 'bi-layers'],
+    ['page' => 'alumnos', 'file' => 'alumnos.php', 'label' => 'Alumnos y matrícula', 'icon' => 'bi-people'],
+    ['page' => 'materias', 'file' => 'materias.php', 'label' => 'Materias', 'icon' => 'bi-book'],
+];
 ?>
 <!-- Barra lateral de navegación institucional -->
 <div class="d-flex flex-column flex-shrink-0 p-3 bg-white border-end" style="width: 280px; min-height: 100vh;">
@@ -16,44 +21,18 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     </a>
     <hr class="text-muted opacity-25">
 
-    <!-- Menú principal: Gestión -->
+    <!-- Menú principal: accesos habilitados para el rol actual -->
     <span class="text-uppercase text-muted fw-bold px-2 mb-2" style="font-size: 0.65rem; letter-spacing: 1px;">Gestión</span>
     <ul class="nav nav-pills flex-column mb-auto gap-1">
-        <li class="nav-item">
-            <a href="dashboard.php" class="nav-link <?= ($current_page == 'dashboard.php') ? 'active text-white' : 'link-dark'; ?>" style="<?= ($current_page == 'dashboard.php') ? 'background-color: #2D5A3F;' : ''; ?>">
-                <i class="bi bi-house-door me-2"></i> Inicio
-            </a>
-        </li>
-        <li>
-            <a href="niveles.php" class="nav-link <?= ($current_page == 'niveles.php') ? 'active text-white' : 'link-dark'; ?>">
-                <i class="bi bi-layers me-2"></i> Niveles y cursos
-            </a>
-        </li>
-        <li>
-            <a href="alumnos.php" class="nav-link <?= ($current_page == 'alumnos.php') ? 'active text-white' : 'link-dark'; ?>">
-                <i class="bi bi-people me-2"></i> Alumnos y matrícula
-            </a>
-        </li>
-        <li>
-            <a href="materias.php" class="nav-link <?= ($current_page == 'materias.php') ? 'active text-white' : 'link-dark'; ?>">
-                <i class="bi bi-book me-2"></i> Materias
-            </a>
-        </li>
-    </ul>
-
-    <!-- Menú secundario: Herramientas -->
-    <span class="text-uppercase text-muted fw-bold px-2 mt-4 mb-2" style="font-size: 0.65rem; letter-spacing: 1px;">Herramientas</span>
-    <ul class="nav nav-pills flex-column mb-4 gap-1">
-        <li>
-            <a href="calendario.php" class="nav-link link-dark">
-                <i class="bi bi-calendar-event me-2"></i> Calendario
-            </a>
-        </li>
-        <li>
-            <a href="configuracion.php" class="nav-link link-dark">
-                <i class="bi bi-gear me-2"></i> Configuración
-            </a>
-        </li>
+        <?php foreach ($navigationItems as $item): ?>
+            <?php if (!appHasPermission($currentUser, $item['page'])) { continue; } ?>
+            <?php $isActive = $current_page === $item['file']; ?>
+            <li class="nav-item">
+                <a href="<?= htmlspecialchars($item['file'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="nav-link <?= $isActive ? 'active text-white' : 'link-dark'; ?>"<?= $isActive ? ' style="background-color: #2D5A3F;"' : ''; ?>>
+                    <i class="bi <?= htmlspecialchars($item['icon'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?> me-2"></i> <?= htmlspecialchars($item['label'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
     </ul>
 
     <!-- Centro de ayuda inferior -->

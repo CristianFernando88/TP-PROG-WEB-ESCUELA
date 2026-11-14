@@ -1,5 +1,8 @@
 <?php
-// Configuración y variables de entorno
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/auth.php';
+$currentUser = appRequireRoleAccess('materias');
 require_once __DIR__ . '/config/env.php';
 
 // Título dinámico SSR exigido por el TP4
@@ -30,11 +33,11 @@ require_once __DIR__ . '/includes/header.php';
                 </button>
                 <div class="d-flex align-items-center gap-2 border-start ps-3">
                     <div class="bg-success text-white fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
-                        SM
+                        <?= htmlspecialchars($currentUser['initials'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>
                     </div>
                     <div class="text-start">
-                        <span class="d-block fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.1;">Sofía Méndez</span>
-                        <span class="d-block text-muted" style="font-size: 0.7rem;">Administración general</span>
+                        <span class="d-block fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.1;"><?= htmlspecialchars($currentUser['name'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
+                        <span class="d-block text-muted" style="font-size: 0.7rem;"><?= htmlspecialchars($currentUser['title'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
                     </div>
                     <i class="bi bi-chevron-down text-muted small ms-1"></i>
                 </div>

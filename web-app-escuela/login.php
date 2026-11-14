@@ -5,12 +5,16 @@ require_once __DIR__ . '/config/env.php';
 
 session_start();
 
-if (isset($_SESSION['rol'])) {
+$roles = require __DIR__ . '/config/roles.php';
+$rolesPermitidos = array_keys($roles);
+$rolEnSesion = $_SESSION['rol'] ?? null;
+
+if (is_string($rolEnSesion) && isset($roles[$rolEnSesion])) {
     header('Location: dashboard.php');
     exit;
 }
 
-$rolesPermitidos = ['admin', 'directivo', 'preceptor', 'profesor', 'tutor'];
+unset($_SESSION['rol']);
 $rolSeleccionado = 'admin';
 $errorLogin = '';
 

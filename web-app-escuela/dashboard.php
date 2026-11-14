@@ -1,11 +1,14 @@
 <?php
-// Configuración y variables de entorno
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/auth.php';
+$currentUser = appRequireRoleAccess('dashboard');
 require_once __DIR__ . '/config/env.php';
 
-// Título dinámico SSR exigido por el TP4
-$titulo_pagina = "Inicio - Panel de Gestión | Colegio Horizonte";
-
-// Inclusión del encabezado modular
+$titulo_pagina = 'Inicio - Panel de Gestión | Colegio Horizonte';
+$dashboardData = $currentUser;
+$hour = (int) date('G');
+$greeting = $hour < 12 ? 'Buen día' : ($hour < 19 ? 'Buenas tardes' : 'Buenas noches');
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -30,11 +33,11 @@ require_once __DIR__ . '/includes/header.php';
                 </button>
                 <div class="d-flex align-items-center gap-2 border-start ps-3">
                     <div class="bg-success text-white fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
-                        SM
+                        <?= htmlspecialchars($currentUser['initials'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>
                     </div>
                     <div class="text-start">
-                        <span class="d-block fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.1;">Sofía Méndez</span>
-                        <span class="d-block text-muted" style="font-size: 0.7rem;">Administración general</span>
+                        <span class="d-block fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.1;"><?= htmlspecialchars($currentUser['name'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
+                        <span class="d-block text-muted" style="font-size: 0.7rem;"><?= htmlspecialchars($currentUser['title'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
                     </div>
                     <i class="bi bi-chevron-down text-muted small ms-1"></i>
                 </div>
@@ -44,61 +47,33 @@ require_once __DIR__ . '/includes/header.php';
         <!-- Bienvenida y botón de acción principal -->
         <div class="d-flex justify-content-between align-items-end mb-4">
             <div>
-                <span class="text-muted fw-semibold" style="font-size: 0.85rem;">LUNES, 14 DE ABRIL</span>
-                <h1 class="fw-bold text-dark m-0" style="font-size: 2rem;">Buen día, Sofía</h1>
-                <p class="text-muted m-0" style="font-size: 0.9rem;">Este es el resumen de la comunidad educativa hoy.</p>
+                <span class="text-muted fw-semibold" style="font-size: 0.85rem;"><?= htmlspecialchars(date('d/m/Y'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
+                <h1 class="fw-bold text-dark m-0" style="font-size: 2rem;"><?= htmlspecialchars($greeting, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>, <?= htmlspecialchars(explode(' ', $currentUser['name'])[0], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></h1>
+                <p class="text-muted m-0" style="font-size: 0.9rem;"><?= htmlspecialchars($dashboardData['summary'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></p>
             </div>
-            <button class="btn text-white px-4 py-2 rounded-3 fw-semibold shadow-sm d-flex align-items-center gap-2" style="background-color: #2D5A3F;">
-                <i class="bi bi-person-plus-fill"></i> Crear usuario
-            </button>
+            <?php if (is_array($dashboardData['primary_action']) && appHasPermission($currentUser, $dashboardData['primary_action']['permission'])): ?>
+                <a href="<?= htmlspecialchars($dashboardData['primary_action']['href'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="btn text-white px-4 py-2 rounded-3 fw-semibold shadow-sm d-flex align-items-center gap-2" style="background-color: #2D5A3F;">
+                    <i class="bi bi-arrow-right-circle"></i> <?= htmlspecialchars($dashboardData['primary_action']['label'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>
+                </a>
+            <?php endif; ?>
         </div>
 
-        <!-- Tarjetas de Métricas Principales (Grid superior) -->
+        <p class="text-muted small mb-2">Indicadores de demostración según tu perfil.</p>
         <div class="row g-3 mb-4">
-            <!-- Alumnos activos -->
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
-                    <div class="d-flex align-items-center gap-2 mb-2 text-muted">
-                        <div class="bg-light p-2 rounded-3 text-success"><i class="bi bi-people" style="font-size: 1.2rem;"></i></div>
-                        <span style="font-size: 0.85rem;">Alumnos activos</span>
+            <?php foreach ($dashboardData['metrics'] as $metric): ?>
+                <div class="col-md-<?= count($dashboardData['metrics']) === 4 ? '3' : '4'; ?>">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
+                        <div class="d-flex align-items-center gap-2 mb-2 text-muted">
+                            <div class="bg-light p-2 rounded-3 text-success">
+                                <i class="bi <?= htmlspecialchars($metric['icon'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" style="font-size: 1.2rem;"></i>
+                            </div>
+                            <span style="font-size: 0.85rem;"><?= htmlspecialchars($metric['label'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
+                        </div>
+                        <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;"><?= htmlspecialchars($metric['value'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></h2>
+                        <span class="text-success small mt-1"><?= htmlspecialchars($metric['note'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
                     </div>
-                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;">1.284</h2>
-                    <span class="text-success small mt-1"><i class="bi bi-arrow-up-right"></i> +32 este mes</span>
                 </div>
-            </div>
-            <!-- Docentes -->
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
-                    <div class="d-flex align-items-center gap-2 mb-2 text-muted">
-                        <div class="bg-light p-2 rounded-3 text-success"><i class="bi bi-mortarboard" style="font-size: 1.2rem;"></i></div>
-                        <span style="font-size: 0.85rem;">Docentes</span>
-                    </div>
-                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;">86</h2>
-                    <span class="text-success small mt-1"><i class="bi bi-arrow-up-right"></i> +4 incorporaciones</span>
-                </div>
-            </div>
-            <!-- Cursos activos -->
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
-                    <div class="d-flex align-items-center gap-2 mb-2 text-muted">
-                        <div class="bg-light p-2 rounded-3 text-success"><i class="bi bi-layers" style="font-size: 1.2rem;"></i></div>
-                        <span style="font-size: 0.85rem;">Cursos activos</span>
-                    </div>
-                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;">42</h2>
-                    <span class="text-success small mt-1"><i class="bi bi-arrow-up-right"></i> 3 niveles</span>
-                </div>
-            </div>
-            <!-- Asistencia hoy -->
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
-                    <div class="d-flex align-items-center gap-2 mb-2 text-muted">
-                        <div class="bg-light p-2 rounded-3 text-success"><i class="bi bi-check2-circle" style="font-size: 1.2rem;"></i></div>
-                        <span style="font-size: 0.85rem;">Asistencia hoy</span>
-                    </div>
-                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;">94,8%</h2>
-                    <span class="text-success small mt-1"><i class="bi bi-arrow-up-right"></i> +1,2% vs. ayer</span>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
         <!-- Sección inferior: Actividad Reciente y Accesos Rápidos -->
@@ -109,46 +84,24 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
-                            <h5 class="fw-bold text-dark m-0">Actividad reciente</h5>
-                            <span class="text-muted small">Últimos movimientos del sistema</span>
+                            <h5 class="fw-bold text-dark m-0"><?= htmlspecialchars($dashboardData['activity_title'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></h5>
+                            <span class="text-muted small"><?= htmlspecialchars($dashboardData['activity_description'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
                         </div>
-                        <a href="#" class="text-success text-decoration-none fw-semibold small">Ver todo</a>
                     </div>
                     
                     <div class="d-flex flex-column gap-3">
-                        <!-- Item 1 -->
-                        <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+                        <?php foreach ($dashboardData['activity'] as $index => $activity): ?>
+                            <div class="d-flex align-items-center justify-content-between p-2<?= $index < count($dashboardData['activity']) - 1 ? ' border-bottom' : ''; ?>">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 0.85rem;">LM</div>
+                                <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 0.85rem;"><?= htmlspecialchars($activity['initials'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></div>
                                 <div>
-                                    <span class="d-block fw-semibold text-dark" style="font-size: 0.9rem;">Lucía Molina fue matriculada</span>
-                                    <span class="text-muted" style="font-size: 0.75rem;">1.º A • Nivel Primario</span>
+                                    <span class="d-block fw-semibold text-dark" style="font-size: 0.9rem;"><?= htmlspecialchars($activity['title'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
+                                    <span class="text-muted" style="font-size: 0.75rem;"><?= htmlspecialchars($activity['context'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
                                 </div>
                             </div>
-                            <span class="text-muted small">Hace 12 min</span>
-                        </div>
-                        <!-- Item 2 -->
-                        <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 0.85rem;">FG</div>
-                                <div>
-                                    <span class="d-block fw-semibold text-dark" style="font-size: 0.9rem;">Federico Gómez actualizó notas</span>
-                                    <span class="text-muted" style="font-size: 0.75rem;">Matemática • 3.º B</span>
-                                </div>
+                            <span class="text-muted small"><?= htmlspecialchars($activity['time'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
                             </div>
-                            <span class="text-muted small">Hace 38 min</span>
-                        </div>
-                        <!-- Item 3 -->
-                        <div class="d-flex align-items-center justify-content-between p-2">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 0.85rem;">AR</div>
-                                <div>
-                                    <span class="d-block fw-semibold text-dark" style="font-size: 0.9rem;">Ana Ruiz creó un nuevo curso</span>
-                                    <span class="text-muted" style="font-size: 0.75rem;">Sala de 4 • Turno tarde</span>
-                                </div>
-                            </div>
-                            <span class="text-muted small">Hace 1 h</span>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -162,38 +115,22 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
 
                     <div class="d-flex flex-column gap-2">
-                        <a href="#" class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light text-decoration-none text-dark transition hover-bg">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-white p-2 rounded-2 text-success shadow-sm"><i class="bi bi-person-plus"></i></div>
-                                <div>
-                                    <span class="d-block fw-semibold" style="font-size: 0.9rem;">Matricular alumno</span>
-                                    <span class="text-muted" style="font-size: 0.7rem;">Registrar una nueva matrícula</span>
+                        <?php foreach ($dashboardData['quick_links'] as $quickLink): ?>
+                            <?php if (!appHasPermission($currentUser, $quickLink['permission'])) { continue; } ?>
+                            <a href="<?= htmlspecialchars($quickLink['href'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light text-decoration-none text-dark transition hover-bg">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-white p-2 rounded-2 text-success shadow-sm"><i class="bi <?= htmlspecialchars($quickLink['icon'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>"></i></div>
+                                    <div>
+                                        <span class="d-block fw-semibold" style="font-size: 0.9rem;"><?= htmlspecialchars($quickLink['title'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
+                                        <span class="text-muted" style="font-size: 0.7rem;"><?= htmlspecialchars($quickLink['description'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <i class="bi bi-chevron-right text-muted small"></i>
-                        </a>
-
-                        <a href="#" class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light text-decoration-none text-dark transition hover-bg">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-white p-2 rounded-2 text-success shadow-sm"><i class="bi bi-shield-lock"></i></div>
-                                <div>
-                                    <span class="d-block fw-semibold" style="font-size: 0.9rem;">Crear usuario y rol</span>
-                                    <span class="text-muted" style="font-size: 0.7rem;">Invitar a la comunidad</span>
-                                </div>
-                            </div>
-                            <i class="bi bi-chevron-right text-muted small"></i>
-                        </a>
-
-                        <a href="#" class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light text-decoration-none text-dark transition hover-bg">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-white p-2 rounded-2 text-success shadow-sm"><i class="bi bi-journal-check"></i></div>
-                                <div>
-                                    <span class="d-block fw-semibold" style="font-size: 0.9rem;">Asignar materia</span>
-                                    <span class="text-muted" style="font-size: 0.7rem;">Vincular curso y profesor</span>
-                                </div>
-                            </div>
-                            <i class="bi bi-chevron-right text-muted small"></i>
-                        </a>
+                                <i class="bi bi-chevron-right text-muted small"></i>
+                            </a>
+                        <?php endforeach; ?>
+                        <?php if ($dashboardData['quick_links'] === []): ?>
+                            <p class="text-muted small mb-0">No hay accesos rápidos disponibles para este perfil.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
