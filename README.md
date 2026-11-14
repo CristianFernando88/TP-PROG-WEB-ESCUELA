@@ -8,6 +8,30 @@
 
 El `index.html` de la raíz redirige a la portada del sitio estático para facilitar la publicación en GitHub Pages.
 
+## Aplicación PHP (TP4)
+
+👉 [Ver modelado figma orientativa de la app Proyecto en Figma](https://www.figma.com/make/2ig7GnsxnjOj469BCJFGmH/Gesti%C3%B3n-Escolar-Colegio-Horizonte?code-node-id=0-6&p=f&t=rzOjt53aobRP2h6F-0&fullscreen=1)
+
+
+La aplicación se encuentra en `web-app-escuela/` y organiza el flujo en:
+
+- `index.php`: enrutador sin salida HTML; deriva al dashboard si hay un rol válido en sesión o al login en caso contrario. Al ser un controlador de redirección, no incluye header ni footer.
+- `login.php`: formulario institucional y acceso simulado para pruebas. Acepta un correo válido, una contraseña no vacía y un rol seleccionado; no autentica contra una base de datos.
+- `dashboard.php`, `alumnos.php`, `niveles.php` y `materias.php`: vistas protegidas que definen su `$titulo_pagina` y cargan la configuración, el header y el footer compartidos.
+- `includes/header.php` y `includes/footer.php`: plantillas comunes de página. `includes/nav.php` presenta los accesos permitidos para el rol activo.
+- `includes/auth.php` y `config/roles.php`: validación de sesión, permisos por página y perfiles/datos de demostración para Admin, Directivo, Preceptor, Profesor y Tutor.
+- `config/env.php`: carga variables del entorno del proceso o, en su defecto, de `web-app-escuela/.env`; valida el correo institucional de soporte.
+
+Los perfiles, registros de alumnos y valores del dashboard son datos de demostración; no cargues datos personales reales en estas vistas. El selector de rol y el acceso simulado no constituyen autenticación ni autorización para un entorno de producción.
+
+### Ejecutar localmente con XAMPP
+
+1. Colocá el repositorio dentro de `C:\xampp\htdocs\TP-PROG-WEB-ESCUELA` y asegurate de que Apache esté iniciado desde el panel de XAMPP.
+2. Opcionalmente, desde la raíz del repositorio, creá la configuración local copiando la plantilla: `Copy-Item web-app-escuela\.env.example web-app-escuela\.env`.
+3. Abrí `http://localhost/TP-PROG-WEB-ESCUELA/web-app-escuela/`. La raíz del repositorio sirve el sitio estático; la aplicación TP4 se inicia desde su propio directorio.
+
+`web-app-escuela/.env` está excluido de Git. Usá ese archivo solo para configuración local y no agregues credenciales ni secretos al repositorio.
+
 **Alumno:** Cristian Fernando Barrios
 
 **Materia:** Programación Web

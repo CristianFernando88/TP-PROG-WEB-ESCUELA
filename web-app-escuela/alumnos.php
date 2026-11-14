@@ -63,7 +63,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="col-md-5">
                     <div class="input-group">
                         <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control bg-light border-start-0 py-2" placeholder="Buscar por nombre o DNI...">
+                        <input type="text" class="form-control bg-light border-start-0 py-2" placeholder="Buscar por nombre o curso...">
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -109,7 +109,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; font-size: 0.8rem;">EC</div>
                                     <div>
                                         <span class="d-block fw-bold text-dark" style="font-size: 0.9rem;">Emma Costa</span>
-                                        <span class="text-muted" style="font-size: 0.75rem;">DNI 49.284.102</span>
+                                        <span class="text-muted" style="font-size: 0.75rem;">Registro de demostración</span>
                                     </div>
                                 </div>
                             </td>
@@ -135,7 +135,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; font-size: 0.8rem;">TC</div>
                                     <div>
                                         <span class="d-block fw-bold text-dark" style="font-size: 0.9rem;">Tomás Costa</span>
-                                        <span class="text-muted" style="font-size: 0.75rem;">DNI 46.102.881</span>
+                                        <span class="text-muted" style="font-size: 0.75rem;">Registro de demostración</span>
                                     </div>
                                 </div>
                             </td>
@@ -161,7 +161,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; font-size: 0.8rem;">LM</div>
                                     <div>
                                         <span class="d-block fw-bold text-dark" style="font-size: 0.9rem;">Lucía Molina</span>
-                                        <span class="text-muted" style="font-size: 0.75rem;">DNI 50.338.912</span>
+                                        <span class="text-muted" style="font-size: 0.75rem;">Registro de demostración</span>
                                     </div>
                                 </div>
                             </td>
@@ -187,7 +187,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; font-size: 0.8rem;">VR</div>
                                     <div>
                                         <span class="d-block fw-bold text-dark" style="font-size: 0.9rem;">Valentina Ruiz</span>
-                                        <span class="text-muted" style="font-size: 0.75rem;">DNI 47.920.341</span>
+                                        <span class="text-muted" style="font-size: 0.75rem;">Registro de demostración</span>
                                     </div>
                                 </div>
                             </td>
@@ -213,7 +213,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; font-size: 0.8rem;">BL</div>
                                     <div>
                                         <span class="d-block fw-bold text-dark" style="font-size: 0.9rem;">Benjamín López</span>
-                                        <span class="text-muted" style="font-size: 0.75rem;">DNI 51.102.741</span>
+                                        <span class="text-muted" style="font-size: 0.75rem;">Registro de demostración</span>
                                     </div>
                                 </div>
                             </td>
