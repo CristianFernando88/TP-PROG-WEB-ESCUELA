@@ -4,7 +4,7 @@
 ## Estructura del monorepo
 
 - `landing-escuela/`: sitio estático del TP N.º 3, con sus páginas, estilos, scripts, imágenes y documentos.
-- `web-app-escuela/`: ubicación prevista para la aplicación dinámica en PHP del TP N.º 4.
+- `web-app-escuela/`: estructura inicial de la aplicación dinámica en PHP del TP N.º 4; configuración y plantillas compartidas están en `config/` e `includes/`.
 
 El `index.html` de la raíz redirige a la portada del sitio estático para facilitar la publicación en GitHub Pages.
 
