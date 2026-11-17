@@ -12,7 +12,7 @@ $titulo_pagina = "Niveles y Cursos - Colegio Horizonte";
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<div class="d-flex min-vh-100 bg-light">
+<div class="d-flex flex-column flex-lg-row min-vh-100 bg-light">
     
     <!-- 1. BARRA LATERAL (SSI) - Aquí se marcará "Niveles y cursos" como activo automáticamente -->
     <?php require_once __DIR__ . '/includes/nav.php'; ?>
@@ -21,13 +21,13 @@ require_once __DIR__ . '/includes/header.php';
     <div class="flex-grow-1 p-4 overflow-auto">
         
         <!-- Barra superior (Header superior con buscador y perfil) -->
-        <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded-4 shadow-sm">
-            <div class="input-group" style="max-width: 400px;">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 bg-white p-3 rounded-4 shadow-sm">
+            <div class="input-group flex-grow-1" style="max-width: 400px;">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
                 <input type="text" class="form-control bg-light border-start-0" placeholder="Buscar alumno, curso o materia...">
                 <span class="input-group-text bg-light text-muted small">⌘K</span>
             </div>
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center justify-content-end gap-2 ms-auto">
                 <button class="btn btn-light position-relative rounded-circle p-2" style="width: 40px; height: 40px;">
                     <i class="bi bi-bell"></i>
                 </button>
@@ -41,6 +41,10 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                     <i class="bi bi-chevron-down text-muted small ms-1"></i>
                 </div>
+                <a href="logout.php" class="btn btn-outline-success btn-sm d-flex align-items-center gap-2" aria-label="Cerrar sesión">
+                    <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                    <span class="d-none d-sm-inline">Cerrar sesión</span>
+                </a>
             </div>
         </div>
 

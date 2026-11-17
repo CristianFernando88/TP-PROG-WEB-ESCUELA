@@ -102,7 +102,7 @@ return [
         'name' => 'Lucía Costa',
         'title' => 'Tutor/a',
         'initials' => 'LC',
-        'permissions' => ['dashboard'],
+        'permissions' => ['dashboard', 'hijos'],
         'summary' => 'Consultá las novedades académicas de tus estudiantes vinculados.',
         'primary_action' => null,
         'metrics' => [
@@ -116,6 +116,26 @@ return [
             ['initials' => 'EC', 'title' => 'Nuevo comunicado escolar', 'context' => 'Emma • Nivel Primario', 'time' => 'Hoy'],
             ['initials' => 'TC', 'title' => 'Asistencia actualizada', 'context' => 'Tomás • Nivel Secundario', 'time' => 'Ayer'],
         ],
-        'quick_links' => [],
+        'quick_links' => [
+            ['title' => 'Mis Hijos', 'description' => 'Consultar información académica', 'icon' => 'bi-people', 'href' => 'hijos.php', 'permission' => 'hijos'],
+        ],
+        'children' => [
+            [
+                'name' => 'Emma Costa',
+                'initials' => 'EC',
+                'course' => '3.º A • Nivel Primario',
+                'attendance' => '96%',
+                'average' => '8,7',
+                'updates' => 'Asistencia registrada hoy',
+            ],
+            [
+                'name' => 'Tomás Costa',
+                'initials' => 'TC',
+                'course' => '1.º B • Nivel Secundario',
+                'attendance' => '93%',
+                'average' => '8,2',
+                'updates' => 'Última calificación: Matemática',
+            ],
+        ],
     ],
 ];

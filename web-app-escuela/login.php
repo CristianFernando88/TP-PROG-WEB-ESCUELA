@@ -50,7 +50,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="col-xl-10">
                 <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                     <div class="row g-0">
-                        <div class="col-lg-6 p-5 d-flex flex-column justify-content-between" style="background-color: #E8F0EC;">
+                        <div class="col-lg-6 d-none d-lg-flex p-5 flex-column justify-content-between" style="background-color: #E8F0EC;">
                             <div>
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <div class="d-flex align-items-center gap-2">
@@ -88,7 +88,7 @@ require_once __DIR__ . '/includes/header.php';
                             </div>
                         </div>
 
-                        <div class="col-lg-6 p-5 bg-white d-flex flex-column justify-content-center">
+                        <div class="col-12 col-lg-6 p-4 p-md-5 bg-white d-flex flex-column justify-content-center">
                             <div class="mb-4">
                                 <span class="text-uppercase text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 1px;">Portal institucional</span>
                                 <h2 class="fw-bold text-dark mt-1" style="font-size: 1.8rem;">Bienvenido de nuevo</h2>

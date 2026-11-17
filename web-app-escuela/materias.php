@@ -8,11 +8,42 @@ require_once __DIR__ . '/config/env.php';
 // Título dinámico SSR exigido por el TP4
 $titulo_pagina = "Materias y Asignaciones - Colegio Horizonte";
 
+$allCatedras = [
+    ['subject' => 'Matemática', 'level' => 'Secundario', 'course' => '1.º A', 'teacher' => 'Federico Gómez', 'initials' => 'FG', 'hours' => 6],
+    ['subject' => 'Matemática', 'level' => 'Secundario', 'course' => '1.º B', 'teacher' => 'Federico Gómez', 'initials' => 'FG', 'hours' => 6],
+    ['subject' => 'Matemática', 'level' => 'Secundario', 'course' => '2.º A', 'teacher' => 'Federico Gómez', 'initials' => 'FG', 'hours' => 6],
+    ['subject' => 'Biología', 'level' => 'Secundario', 'course' => '2.º A', 'teacher' => 'Martín Ríos', 'initials' => 'MR', 'hours' => 4],
+    ['subject' => 'Biología', 'level' => 'Secundario', 'course' => '3.º A', 'teacher' => 'Martín Ríos', 'initials' => 'MR', 'hours' => 4],
+    ['subject' => 'Lengua y Literatura', 'level' => 'Secundario', 'course' => '1.º A', 'teacher' => 'Carolina Vega', 'initials' => 'CV', 'hours' => 5],
+    ['subject' => 'Lengua y Literatura', 'level' => 'Secundario', 'course' => '2.º B', 'teacher' => 'Carolina Vega', 'initials' => 'CV', 'hours' => 5],
+    ['subject' => 'Ciencias Naturales', 'level' => 'Primario', 'course' => '4.º A', 'teacher' => 'Paula Acosta', 'initials' => 'PA', 'hours' => 3],
+    ['subject' => 'Ciencias Naturales', 'level' => 'Primario', 'course' => '5.º A', 'teacher' => 'Paula Acosta', 'initials' => 'PA', 'hours' => 3],
+    ['subject' => 'Inglés', 'level' => 'Todos los niveles', 'course' => '1.º A', 'teacher' => 'Equipo de idiomas', 'initials' => 'EI', 'hours' => 4],
+    ['subject' => 'Inglés', 'level' => 'Todos los niveles', 'course' => '1.º B', 'teacher' => 'Equipo de idiomas', 'initials' => 'EI', 'hours' => 4],
+    ['subject' => 'Inglés', 'level' => 'Todos los niveles', 'course' => '2.º A', 'teacher' => 'Equipo de idiomas', 'initials' => 'EI', 'hours' => 4],
+    ['subject' => 'Historia', 'level' => 'Secundario', 'course' => '4.º B', 'teacher' => '', 'initials' => '', 'hours' => 3],
+    ['subject' => 'Física', 'level' => 'Secundario', 'course' => '5.º A', 'teacher' => '', 'initials' => '', 'hours' => 4],
+    ['subject' => 'Tecnología', 'level' => 'Primario', 'course' => '2.º B', 'teacher' => '', 'initials' => '', 'hours' => 2],
+];
+
+if ($currentUser['role'] === 'profesor') {
+    $allCatedras = array_values(array_filter(
+        $allCatedras,
+        static fn (array $catedra): bool => $catedra['teacher'] === $currentUser['name']
+    ));
+}
+
+$assignedTeachers = array_unique(array_filter(array_column($allCatedras, 'teacher')));
+$unassignedCatedras = count(array_filter(
+    $allCatedras,
+    static fn (array $catedra): bool => $catedra['teacher'] === ''
+));
+
 // Inclusión del encabezado modular (SSI)
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<div class="d-flex min-vh-100 bg-light">
+<div class="d-flex flex-column flex-lg-row min-vh-100 bg-light">
     
     <!-- 1. BARRA LATERAL (SSI) - Detecta automáticamente la página activa -->
     <?php require_once __DIR__ . '/includes/nav.php'; ?>
@@ -21,13 +52,13 @@ require_once __DIR__ . '/includes/header.php';
     <div class="flex-grow-1 p-4 overflow-auto">
         
         <!-- Barra superior (Buscador y perfil de usuario) -->
-        <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded-4 shadow-sm">
-            <div class="input-group" style="max-width: 400px;">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 bg-white p-3 rounded-4 shadow-sm">
+            <div class="input-group flex-grow-1" style="max-width: 400px;">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
                 <input type="text" class="form-control bg-light border-start-0" placeholder="Buscar alumno, curso o materia...">
                 <span class="input-group-text bg-light text-muted small">⌘K</span>
             </div>
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center justify-content-end gap-2 ms-auto">
                 <button class="btn btn-light position-relative rounded-circle p-2" style="width: 40px; height: 40px;">
                     <i class="bi bi-bell"></i>
                 </button>
@@ -41,6 +72,10 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                     <i class="bi bi-chevron-down text-muted small ms-1"></i>
                 </div>
+                <a href="logout.php" class="btn btn-outline-success btn-sm d-flex align-items-center gap-2" aria-label="Cerrar sesión">
+                    <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                    <span class="d-none d-sm-inline">Cerrar sesión</span>
+                </a>
             </div>
         </div>
 
@@ -61,9 +96,9 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
                     <div class="d-flex align-items-center gap-2 mb-2 text-muted">
                         <div class="bg-light p-2 rounded-3 text-success"><i class="bi bi-book" style="font-size: 1.2rem;"></i></div>
-                        <span style="font-size: 0.85rem;">Materias activas</span>
+                        <span style="font-size: 0.85rem;">Cátedras activas</span>
                     </div>
-                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;">64</h2>
+                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;"><?= count($allCatedras); ?></h2>
                 </div>
             </div>
             <div class="col-md-4">
@@ -72,7 +107,7 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="bg-light p-2 rounded-3 text-success"><i class="bi bi-mortarboard" style="font-size: 1.2rem;"></i></div>
                         <span style="font-size: 0.85rem;">Profesores titulares</span>
                     </div>
-                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;">78</h2>
+                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;"><?= count($assignedTeachers); ?></h2>
                 </div>
             </div>
             <div class="col-md-4">
@@ -81,7 +116,7 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="bg-light p-2 rounded-3 text-warning"><i class="bi bi-clock" style="font-size: 1.2rem;"></i></div>
                         <span style="font-size: 0.85rem;">Sin asignar</span>
                     </div>
-                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;">3</h2>
+                    <h2 class="fw-bold text-dark m-0" style="font-size: 1.8rem;"><?= $unassignedCatedras; ?></h2>
                 </div>
             </div>
         </div>
@@ -120,114 +155,39 @@ require_once __DIR__ . '/includes/header.php';
                 <table class="table align-middle mb-0">
                     <thead>
                         <tr class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">
-                            <th class="border-0 pb-3">Materia</th>
+                            <th class="border-0 pb-3">Cátedra</th>
                             <th class="border-0 pb-3">Nivel</th>
-                            <th class="border-0 pb-3">Cursos asignados</th>
                             <th class="border-0 pb-3">Profesor titular</th>
                             <th class="border-0 pb-3">Carga horaria</th>
                             <th class="border-0 pb-3 text-end">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Materia 1 -->
-                        <tr class="border-bottom">
-                            <td>
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-light text-success p-2 rounded-3"><i class="bi bi-book"></i></div>
-                                    <span class="fw-bold text-dark" style="font-size: 0.9rem;">Matemática</span>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-light text-secondary border px-3 py-1 rounded-pill fw-medium" style="font-size: 0.75rem;">Secundario</span></td>
-                            <td><span class="text-dark fw-semibold" style="font-size: 0.85rem;">1.º A, 1.º B, 2.º A</span></td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.75rem;">FG</div>
-                                    <span class="fw-semibold text-dark" style="font-size: 0.85rem;">Federico Gómez</span>
-                                </div>
-                            </td>
-                            <td class="text-muted" style="font-size: 0.85rem;">6 h semanales</td>
-                            <td class="text-end text-muted"><i class="bi bi-three-dots-vertical cursor-pointer"></i></td>
-                        </tr>
-
-                        <!-- Materia 2 -->
-                        <tr class="border-bottom">
-                            <td>
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-light text-success p-2 rounded-3"><i class="bi bi-book"></i></div>
-                                    <span class="fw-bold text-dark" style="font-size: 0.9rem;">Biología</span>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-light text-secondary border px-3 py-1 rounded-pill fw-medium" style="font-size: 0.75rem;">Secundario</span></td>
-                            <td><span class="text-dark fw-semibold" style="font-size: 0.85rem;">2.º A, 3.º A, 4.º B</span></td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.75rem;">MR</div>
-                                    <span class="fw-semibold text-dark" style="font-size: 0.85rem;">Martín Ríos</span>
-                                </div>
-                            </td>
-                            <td class="text-muted" style="font-size: 0.85rem;">4 h semanales</td>
-                            <td class="text-end text-muted"><i class="bi bi-three-dots-vertical cursor-pointer"></i></td>
-                        </tr>
-
-                        <!-- Materia 3 -->
-                        <tr class="border-bottom">
-                            <td>
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-light text-success p-2 rounded-3"><i class="bi bi-book"></i></div>
-                                    <span class="fw-bold text-dark" style="font-size: 0.9rem;">Lengua y Literatura</span>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-light text-secondary border px-3 py-1 rounded-pill fw-medium" style="font-size: 0.75rem;">Secundario</span></td>
-                            <td><span class="text-dark fw-semibold" style="font-size: 0.85rem;">1.º A, 2.º B, 5.º A</span></td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.75rem;">CV</div>
-                                    <span class="fw-semibold text-dark" style="font-size: 0.85rem;">Carolina Vega</span>
-                                </div>
-                            </td>
-                            <td class="text-muted" style="font-size: 0.85rem;">5 h semanales</td>
-                            <td class="text-end text-muted"><i class="bi bi-three-dots-vertical cursor-pointer"></i></td>
-                        </tr>
-
-                        <!-- Materia 4 -->
-                        <tr class="border-bottom">
-                            <td>
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-light text-success p-2 rounded-3"><i class="bi bi-book"></i></div>
-                                    <span class="fw-bold text-dark" style="font-size: 0.9rem;">Ciencias Naturales</span>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-light text-secondary border px-3 py-1 rounded-pill fw-medium" style="font-size: 0.75rem;">Primario</span></td>
-                            <td><span class="text-dark fw-semibold" style="font-size: 0.85rem;">4.º A, 4.º B, 5.º A</span></td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.75rem;">PA</div>
-                                    <span class="fw-semibold text-dark" style="font-size: 0.85rem;">Paula Acosta</span>
-                                </div>
-                            </td>
-                            <td class="text-muted" style="font-size: 0.85rem;">3 h semanales</td>
-                            <td class="text-end text-muted"><i class="bi bi-three-dots-vertical cursor-pointer"></i></td>
-                        </tr>
-
-                        <!-- Materia 5 -->
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-light text-success p-2 rounded-3"><i class="bi bi-book"></i></div>
-                                    <span class="fw-bold text-dark" style="font-size: 0.9rem;">Inglés</span>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-light text-secondary border px-3 py-1 rounded-pill fw-medium" style="font-size: 0.75rem;">Todos los niveles</span></td>
-                            <td><span class="text-dark fw-semibold" style="font-size: 0.85rem;">12 cursos</span></td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.75rem;">EI</div>
-                                    <span class="fw-semibold text-dark" style="font-size: 0.85rem;">Equipo de idiomas</span>
-                                </div>
-                            </td>
-                            <td class="text-muted" style="font-size: 0.85rem;">4 h semanales</td>
-                            <td class="text-end text-muted"><i class="bi bi-three-dots-vertical cursor-pointer"></i></td>
-                        </tr>
+                        <?php foreach ($allCatedras as $index => $catedra): ?>
+                            <tr<?= $index < count($allCatedras) - 1 ? ' class="border-bottom"' : ''; ?>>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-light text-success p-2 rounded-3"><i class="bi bi-book" aria-hidden="true"></i></div>
+                                        <span class="fw-bold text-dark" style="font-size: 0.9rem;">
+                                            <?= htmlspecialchars($catedra['subject'] . ' - ' . $catedra['course'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-light text-secondary border px-3 py-1 rounded-pill fw-medium" style="font-size: 0.75rem;"><?= htmlspecialchars($catedra['level'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span></td>
+                                <td>
+                                    <?php if ($catedra['teacher'] !== ''): ?>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="bg-light text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.75rem;"><?= htmlspecialchars($catedra['initials'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></div>
+                                            <span class="fw-semibold text-dark" style="font-size: 0.85rem;"><?= htmlspecialchars($catedra['teacher'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="text-muted small">Sin asignar</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="text-muted" style="font-size: 0.85rem;"><?= $catedra['hours']; ?> h semanales</td>
+                                <td class="text-end text-muted"><i class="bi bi-three-dots-vertical cursor-pointer" aria-hidden="true"></i></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
