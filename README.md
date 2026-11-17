@@ -42,51 +42,51 @@ El Trabajo Práctico N.º 2 definió la interfaz visual y el Trabajo Práctico N
 
 ### Inicio
 
-![Inicio](landing-escuela/img/hero-estudiantes.svg)
+![Inicio](https://github.com/user-attachments/assets/4e5433a4-d8a2-4df3-972b-43dff1fdda61)
 
 ### Autoridades
 
-![Autoridades](landing-escuela/img/autoridad-1.svg)
+![Autoridades](https://github.com/user-attachments/assets/82b2a996-490e-47ea-84f6-f4955a4c1387)
 
 ### Quiénes somos
 
-![Quiénes somos](landing-escuela/img/historia-colegio.svg)
+![Quiénes somos](https://github.com/user-attachments/assets/c3c9dad6-c950-4f78-96fc-89d8d7124aab)
 
 ### Misión, visión y valores
 
-![Misión, visión y valores](landing-escuela/img/historia-colegio.svg)
+![Misión, visión y valores](https://github.com/user-attachments/assets/e582567b-70a5-4c30-8e1d-841f57efa9f7)
 
 ### Documentos institucionales
 
-![Documentos institucionales](landing-escuela/img/historia-colegio.svg)
+![Documentos institucionales](https://github.com/user-attachments/assets/7113fc88-0428-4dbd-924c-7fdf5a0d5f53)
 
 ### Nivel inicial
 
-![Nivel inicial](landing-escuela/img/nivel-inicial.svg)
+![Nivel inicial](https://github.com/user-attachments/assets/b6f8a2bb-2c2f-4989-967a-6bb14545c45f)
 
 ### Nivel primario
 
-![Nivel primario](landing-escuela/img/nivel-primario.svg)
+![Nivel primario](https://github.com/user-attachments/assets/b3d1972b-916d-4f24-95ba-5923b384f102)
 
 ### Nivel secundario
 
-![Nivel secundario](landing-escuela/img/nivel-secundario.svg)
+![Nivel secundario](https://github.com/user-attachments/assets/8c9d67c5-3b05-4586-8822-e245d5874bc5)
 
 ### Pastoral y comunidad
 
-![Pastoral y comunidad](landing-escuela/img/noticia-5.svg)
+![Pastoral y comunidad](https://github.com/user-attachments/assets/4c5b7f0a-6deb-494c-a0ef-a94da36cb944)
 
 ### Novedades y noticias
 
-![Novedades y noticias](landing-escuela/img/noticia-1.svg)
+![Novedades y noticias](https://github.com/user-attachments/assets/6725c965-d305-48ba-9073-3d74924dad9a)
 
 ### Admisión e inscripciones
 
-![Admisión e inscripciones](landing-escuela/img/historia-colegio.svg)
+![Admisión e inscripciones](https://github.com/user-attachments/assets/60f3472f-3441-4219-ba0c-ba85b4d9cb34)
 
 ### Contacto y ubicación
 
-![Contacto y ubicación](landing-escuela/img/historia-colegio.svg)
+![Contacto y ubicación](https://github.com/user-attachments/assets/fe8ee5ef-10ad-4dca-bd1d-75d68a15382c)
 
 </details>
 
