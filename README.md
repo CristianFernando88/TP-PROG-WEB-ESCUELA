@@ -252,6 +252,48 @@ Ubicado en `web-app-escuela/clase5/buscar.php`, es un buscador que filtra inform
 
 </details>
 
+
+---
+
+## Trabajo Práctico N.º 6: Diseño y Creación del Esquema Relacional en MySQL
+
+El sexto trabajo práctico consistió en el diseño, normalización y creación de la base de datos relacional para el sistema escolar. Todo el desarrollo se encuentra en la carpeta `tp6/` en la raíz del repositorio.
+
+### Normalización y Esquema (Parte 1 y 2)
+Se documentó el proceso de normalización (1FN, 2FN y 3FN) en el archivo `tp6/NORMALIZACION.md`, partiendo de una tabla desnormalizada hasta llegar a un esquema relacional eficiente de 9 tablas.
+
+El script DDL (`tp6/schema.sql`) crea la base de datos `colegio_horizonte` con las siguientes tablas:
+- **Maestras:** `roles`, `niveles`, `materias`.
+- **Principales:** `usuarios`, `alumnos`, `consultas_contacto`.
+- **Relacionales:** `cursos`, `tutor_alumno` (relación N:M), `profesor_materia_curso` (relación N:M).
+
+El script incluye claves primarias autoincrementales, integridad referencial (FOREIGN KEY), campos de auditoría (`created_at`, `updated_at`) y optimización mediante índices (`idx_usuarios_email`, `idx_alumnos_apellido`).
+
+### Pruebas CRUD (Parte 3)
+El archivo `tp6/consultas.sql` contiene las operaciones DML para validar el esquema:
+- **Create:** Inserción de roles, niveles, cursos, un tutor (Lucía) con dos hijos (Emma y Tomás), y un profesor.
+- **Read:** Consultas con `WHERE`, `ORDER BY` y un `INNER JOIN` para visualizar la relación Tutor-Alumno.
+- **Update:** Modificación de datos de un usuario.
+- **Delete:** Eliminación de un registro de prueba.
+
+### Evidencias visuales del TP6
+
+<details>
+<summary>Capturas de pantalla de la base de datos y consultas</summary>
+
+#### Estructura de la Base de Datos en phpMyAdmin
+*Tablas creadas exitosamente en el motor MySQL.*
+
+![Estructura de tablas](./assets/estructura_bd.png)
+
+#### Resultado del INNER JOIN (Tutor - Alumno)
+*Consulta SQL mostrando la relación entre el tutor y sus hijos.*
+
+![Resultado INNER JOIN](./assets/consulta-join.png)
+
+</details>
+
+
 ## Datos finales
 
 - **Alumno:** Cristian Fernando Barrios
