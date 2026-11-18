@@ -40,3 +40,7 @@ if (!filter_var(SUPPORT_EMAIL, FILTER_VALIDATE_EMAIL)) {
 if (!defined('APP_ENV')) {
     define('APP_ENV', $getConfigValue('APP_ENV', 'local'));
 }
+
+if (!defined('APP_BASE_URL')) {
+    define('APP_BASE_URL', rtrim($getConfigValue('APP_BASE_URL', ''), '/'));
+}
