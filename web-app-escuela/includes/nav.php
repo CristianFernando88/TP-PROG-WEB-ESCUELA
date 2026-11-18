@@ -1,5 +1,7 @@
 <?php
 $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$baseUrl = (defined('APP_BASE_URL') && APP_BASE_URL !== '') ? rtrim(APP_BASE_URL, '/') : '';
+$dashboardUrl = $baseUrl === '' ? 'dashboard.php' : $baseUrl . '/dashboard.php';
 $navigationItems = [
     ['page' => 'dashboard', 'file' => 'dashboard.php', 'label' => 'Inicio', 'icon' => 'bi-house-door'],
     ['page' => 'niveles', 'file' => 'niveles.php', 'label' => 'Niveles y cursos', 'icon' => 'bi-layers'],
@@ -17,7 +19,7 @@ $navigationItems = [
 
 <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="appSidebar" aria-labelledby="appSidebarLabel">
     <div class="offcanvas-header border-bottom">
-        <a href="dashboard.php" class="d-flex align-items-center text-decoration-none gap-2" id="appSidebarLabel">
+        <a href="<?= htmlspecialchars($dashboardUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="d-flex align-items-center text-decoration-none gap-2" id="appSidebarLabel">
             <div class="bg-success text-white p-2 rounded-3 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
                 <i class="bi bi-mortarboard-fill"></i>
             </div>
@@ -31,8 +33,9 @@ $navigationItems = [
             <?php foreach ($navigationItems as $item): ?>
                 <?php if (!appHasPermission($currentUser, $item['page'])) { continue; } ?>
                 <?php $isActive = $current_page === $item['file']; ?>
+                <?php $href = $baseUrl === '' ? $item['file'] : $baseUrl . '/' . $item['file']; ?>
                 <li class="nav-item">
-                    <a href="<?= htmlspecialchars($item['file'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="nav-link <?= $isActive ? 'active text-white' : 'link-dark'; ?>"<?= $isActive ? ' style="background-color: #2D5A3F;" aria-current="page"' : ''; ?>>
+                    <a href="<?= htmlspecialchars($href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="nav-link <?= $isActive ? 'active text-white' : 'link-dark'; ?>"<?= $isActive ? ' style="background-color: #2D5A3F;" aria-current="page"' : ''; ?>>
                         <i class="bi <?= htmlspecialchars($item['icon'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?> me-2" aria-hidden="true"></i> <?= htmlspecialchars($item['label'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>
                     </a>
                 </li>
@@ -53,7 +56,7 @@ $navigationItems = [
 </div>
 
 <aside class="d-none d-lg-flex flex-column flex-shrink-0 p-3 bg-white border-end" style="width: 280px; min-height: 100vh;">
-    <a href="dashboard.php" class="d-flex align-items-center mb-3 me-md-auto text-decoration-none gap-2 px-2">
+    <a href="<?= htmlspecialchars($dashboardUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="d-flex align-items-center mb-3 me-md-auto text-decoration-none gap-2 px-2">
         <div class="bg-success text-white p-2 rounded-3 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
             <i class="bi bi-mortarboard-fill"></i>
         </div>
@@ -69,8 +72,9 @@ $navigationItems = [
         <?php foreach ($navigationItems as $item): ?>
             <?php if (!appHasPermission($currentUser, $item['page'])) { continue; } ?>
             <?php $isActive = $current_page === $item['file']; ?>
+            <?php $href = $baseUrl === '' ? $item['file'] : $baseUrl . '/' . $item['file']; ?>
             <li class="nav-item">
-                <a href="<?= htmlspecialchars($item['file'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="nav-link <?= $isActive ? 'active text-white' : 'link-dark'; ?>"<?= $isActive ? ' style="background-color: #2D5A3F;" aria-current="page"' : ''; ?>>
+                <a href="<?= htmlspecialchars($href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="nav-link <?= $isActive ? 'active text-white' : 'link-dark'; ?>"<?= $isActive ? ' style="background-color: #2D5A3F;" aria-current="page"' : ''; ?>>
                     <i class="bi <?= htmlspecialchars($item['icon'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?> me-2" aria-hidden="true"></i> <?= htmlspecialchars($item['label'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>
                 </a>
             </li>

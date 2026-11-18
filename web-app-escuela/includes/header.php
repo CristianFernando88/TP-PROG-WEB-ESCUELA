@@ -9,6 +9,7 @@ $titulo_pagina = isset($titulo_pagina) && is_string($titulo_pagina) && trim($tit
 $descripcion_pagina = isset($descripcion_pagina) && is_string($descripcion_pagina)
     ? trim($descripcion_pagina)
     : 'Aplicación escolar del Colegio Horizonte.';
+$assetBase = (defined('APP_BASE_URL') && APP_BASE_URL !== '') ? APP_BASE_URL : '.';
 ?>
 <!doctype html>
 <html lang="es">
@@ -20,7 +21,8 @@ $descripcion_pagina = isset($descripcion_pagina) && is_string($descripcion_pagin
     <title><?= htmlspecialchars($titulo_pagina, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?> | <?= htmlspecialchars(APP_NAME, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="../landing-escuela/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= htmlspecialchars($assetBase, ENT_QUOTES, 'UTF-8') ?>/assets/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="<?= htmlspecialchars($assetBase . '/assets/img/favicon.svg', ENT_QUOTES, 'UTF-8') ?>">
     <style>
         :root {
             --bg-sidebar: #E8F0EC;
