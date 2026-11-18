@@ -179,6 +179,79 @@ El archivo `web-app-escuela/.env` está excluido de Git mediante `.gitignore`. N
 
 ---
 
+---
+
+## Trabajo Práctico N.º 5: Procesamiento de Formularios y Seguridad Web
+
+El quinto trabajo práctico incorpora la lógica del lado del servidor para capturar y procesar datos enviados desde el navegador. Todo el desarrollo de esta etapa se encuentra dentro de la carpeta exacta `clase5/` ubicada en `web-app-escuela/clase5/`.
+
+Se implementaron dos interacciones de formulario cumpliendo con los requerimientos de seguridad web (OWASP Top 10 - XSS) y validación estricta.
+
+### Formulario POST: Contacto / Consulta
+
+Ubicado en `web-app-escuela/clase5/contacto.php`, es un formulario de contacto institucional que envía datos mediante el método POST.
+
+- **Campos:** Nombre, Email, Asunto (lista desplegable) y Mensaje.
+- **Validación en servidor:** Se comprueba que ningún campo requerido llegue vacío utilizando `isset()` y `empty()`. Se valida el formato del correo electrónico mediante `filter_var(..., FILTER_VALIDATE_EMAIL)`.
+- **Sanitización:** Todos los datos recibidos pasan por `trim()` para eliminar espacios en blanco y `htmlspecialchars(..., ENT_QUOTES, 'UTF-8')` para prevenir inyecciones de scripts maliciosos (XSS).
+- **Persistencia (Sticky Form):** Si ocurre un error de validación, los datos ingresados previamente se mantienen en el formulario para evitar que el usuario deba reescribirlos. Se logra a través de una función helper `c5_repoblar()`.
+- **Mensajes:** Se muestran alertas de error (Bootstrap `alert-danger` e `is-invalid`) por cada campo y un mensaje general de éxito (`alert-success`).
+- **Patrón PRG:** Se implementó el patrón Post/Redirect/Get para que al recargar la página tras un envío exitoso no se dupliquen los datos.
+
+### Formulario GET: Buscador de Materias
+
+Ubicado en `web-app-escuela/clase5/buscar.php`, es un buscador que filtra información mediante el método GET.
+
+- **Campos:** Texto libre para materia (`q`), y listas desplegables para Nivel y Turno.
+- **Sanitización GET:** Las variables capturadas por `$_GET` son sanitizadas antes de ser procesadas y renderizadas en la interfaz.
+- **Lógica de búsqueda:** Se implementó un array estático simulando la base de datos de materias. Se utiliza `array_filter` con lógica de coincidencia por texto (usando `stripos`), nivel y turno.
+- **Interfaz:** Los resultados coincidentes se muestran en una tabla (`table-striped`), respetando la seguridad al imprimir los datos. Si no hay resultados, se muestra una alerta (`alert-warning`).
+- **Persistencia:** El formulario también mantiene los filtros seleccionados en pantalla tras realizar la búsqueda.
+
+### Arquitectura de Clase 5
+
+- `clase5/index.php`: Página central (hub) que da la bienvenida y enlaza a ambos formularios.
+- `clase5/_bootstrap.php`: Inicializa la configuración, sesiones y la URL base (integrando los permisos del rol activo en el menú).
+- `clase5/_helpers.php`: Funciones de soporte para sanitización de texto (`c5_sanitizar_texto`), emails (`c5_sanitizar_email`), repoblación (`c5_repoblar`) y manejo de mensajes flash (`c5_set_flash`, `c5_get_flash`).
+- `clase5/contacto.php` y `clase5/buscar.php`: Vistas y controladores de los formularios POST y GET.
+
+### Evidencias visuales del TP5
+
+<details>
+<summary>Capturas de pantalla de los formularios y validaciones</summary>
+
+#### Hub de Clase 5
+*Página principal del TP5 con acceso a ambos formularios.*
+
+![Hub Clase 5](URL_DE_LA_IMAGEN_AQUI)
+
+#### Formulario POST (Validación y Sticky Form)
+*Muestra los errores de validación en rojo y cómo los datos se mantienen en pantalla.*
+
+![Formulario POST con errores](/web-app-escuela/assets/img/index-clase-5.png)
+
+#### Formulario POST (Envío Exitoso)
+*Alerta verde de confirmación tras el envío correcto (Patrón PRG).*
+
+![Formulario POST exitoso](/web-app-escuela/assets/img/form-contacto-exito.png)
+
+#### Seguridad XSS (Post y Get)
+*El intento de inyección de `<script>` se muestra como texto plano y es bloqueado por `htmlspecialchars()`.*
+
+![Prueba XSS](/web-app-escuela/assets/img/prueba-xss.png)
+
+#### Formulario GET (Resultados de búsqueda)
+*Tabla de resultados mostrando los filtros aplicados por la URL.*
+
+![Buscador GET con resultados](/web-app-escuela/assets/img/buscador-clase5.png)
+
+#### Formulario GET (Sin resultados)
+*Mensaje de alerta cuando no hay coincidencias.*
+
+![Buscador GET sin resultados](/web-app-escuela/assets/img/buscador-clase5-sin-exito.png)
+
+</details>
+
 ## Datos finales
 
 - **Alumno:** Cristian Fernando Barrios

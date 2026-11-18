@@ -88,6 +88,7 @@ require_once __DIR__ . '/../includes/header.php';
         <div class="col-12 d-flex gap-2">
             <button type="submit" class="btn btn-primary">Buscar</button>
             <a class="btn btn-outline-secondary" href="<?= htmlspecialchars(c5_url('buscar.php'), ENT_QUOTES, 'UTF-8') ?>">Limpiar</a>
+            <a class="btn btn-outline-secondary" href="<?= htmlspecialchars(c5_url('index.php'), ENT_QUOTES, 'UTF-8') ?>">Volver</a>
         </div>
     </form>
 
