@@ -8,7 +8,7 @@ return [
         'initials' => 'SM',
         'permissions' => ['dashboard', 'alumnos', 'niveles', 'materias'],
         'summary' => 'Este es el resumen de la comunidad educativa hoy.',
-        'primary_action' => ['label' => 'Gestionar alumnos', 'href' => 'alumnos.php', 'permission' => 'alumnos'],
+        'primary_action' => ['label' => 'Gestionar alumnos', 'href' => 'admin/index.php', 'permission' => 'alumnos'],
         'metrics' => [
             ['label' => 'Alumnos activos', 'value' => '1.284', 'note' => '+32 este mes', 'icon' => 'bi-people'],
             ['label' => 'Docentes', 'value' => '86', 'note' => '+4 incorporaciones', 'icon' => 'bi-mortarboard'],
@@ -23,7 +23,7 @@ return [
             ['initials' => 'AR', 'title' => 'Ana Ruiz creó un nuevo curso', 'context' => 'Sala de 4 • Turno tarde', 'time' => 'Hace 1 h'],
         ],
         'quick_links' => [
-            ['title' => 'Alumnos y matrícula', 'description' => 'Consultar y gestionar estudiantes', 'icon' => 'bi-people', 'href' => 'alumnos.php', 'permission' => 'alumnos'],
+            ['title' => 'Alumnos y matrícula', 'description' => 'Consultar y gestionar estudiantes', 'icon' => 'bi-people', 'href' => 'admin/index.php', 'permission' => 'alumnos'],
             ['title' => 'Niveles y cursos', 'description' => 'Ver la estructura académica', 'icon' => 'bi-layers', 'href' => 'niveles.php', 'permission' => 'niveles'],
             ['title' => 'Materias', 'description' => 'Consultar materias y asignaciones', 'icon' => 'bi-book', 'href' => 'materias.php', 'permission' => 'materias'],
         ],
@@ -48,7 +48,7 @@ return [
             ['initials' => 'AR', 'title' => 'Se creó un nuevo curso', 'context' => 'Sala de 4 • Turno tarde', 'time' => 'Hace 1 h'],
         ],
         'quick_links' => [
-            ['title' => 'Alumnos y matrícula', 'description' => 'Consultar estudiantes', 'icon' => 'bi-people', 'href' => 'alumnos.php', 'permission' => 'alumnos'],
+            ['title' => 'Alumnos y matrícula', 'description' => 'Consultar estudiantes', 'icon' => 'bi-people', 'href' => 'admin/index.php', 'permission' => 'alumnos'],
             ['title' => 'Niveles y cursos', 'description' => 'Consultar estructura académica', 'icon' => 'bi-layers', 'href' => 'niveles.php', 'permission' => 'niveles'],
             ['title' => 'Materias', 'description' => 'Consultar asignaciones', 'icon' => 'bi-book', 'href' => 'materias.php', 'permission' => 'materias'],
         ],
@@ -59,7 +59,7 @@ return [
         'initials' => 'CN',
         'permissions' => ['dashboard', 'alumnos', 'niveles'],
         'summary' => 'Este es el seguimiento de tus cursos y estudiantes.',
-        'primary_action' => ['label' => 'Consultar alumnos', 'href' => 'alumnos.php', 'permission' => 'alumnos'],
+        'primary_action' => ['label' => 'Consultar alumnos', 'href' => 'admin/index.php', 'permission' => 'alumnos'],
         'metrics' => [
             ['label' => 'Alumnos a cargo', 'value' => '128', 'note' => 'Cursos asignados', 'icon' => 'bi-people'],
             ['label' => 'Cursos asignados', 'value' => '6', 'note' => 'Turno mañana', 'icon' => 'bi-layers'],
@@ -72,7 +72,7 @@ return [
             ['initials' => '3B', 'title' => 'Se registró una novedad', 'context' => '3.º B • Turno mañana', 'time' => 'Hace 25 min'],
         ],
         'quick_links' => [
-            ['title' => 'Alumnos y matrícula', 'description' => 'Consultar estudiantes', 'icon' => 'bi-people', 'href' => 'alumnos.php', 'permission' => 'alumnos'],
+            ['title' => 'Alumnos y matrícula', 'description' => 'Consultar estudiantes', 'icon' => 'bi-people', 'href' => 'admin/index.php', 'permission' => 'alumnos'],
             ['title' => 'Niveles y cursos', 'description' => 'Consultar cursos asignados', 'icon' => 'bi-layers', 'href' => 'niveles.php', 'permission' => 'niveles'],
         ],
     ],

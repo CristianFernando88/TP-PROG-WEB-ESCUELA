@@ -19,6 +19,11 @@ require_once __DIR__ . '/includes/header.php';
 
     <!-- 2. CONTENIDO PRINCIPAL DE ALUMNOS Y MATRÍCULA -->
     <div class="flex-grow-1 p-4 overflow-auto">
+
+        <div class="alert alert-info d-flex justify-content-between align-items-center gap-3" role="alert">
+            <span>Esta es la vista de maqueta del TP4. La gestión real ya está conectada a la base de datos.</span>
+            <a href="admin/index.php" class="btn btn-primary btn-sm text-nowrap">Ir al CRUD Real</a>
+        </div>
         
         <!-- Barra superior (Buscador y perfil de usuario) -->
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 bg-white p-3 rounded-4 shadow-sm">

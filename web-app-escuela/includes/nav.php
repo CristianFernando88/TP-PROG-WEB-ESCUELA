@@ -1,11 +1,23 @@
 <?php
-$current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$currentScript = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
+$current_page = basename($currentScript);
+$currentDirectory = basename(dirname($currentScript));
 $baseUrl = (defined('APP_BASE_URL') && APP_BASE_URL !== '') ? rtrim(APP_BASE_URL, '/') : '';
+
+if ($baseUrl === '') {
+    $scriptDirectory = dirname($currentScript);
+    if (in_array(basename($scriptDirectory), ['admin', 'clase5'], true)) {
+        $scriptDirectory = dirname($scriptDirectory);
+    }
+
+    $baseUrl = rtrim($scriptDirectory, '/.');
+}
+
 $dashboardUrl = $baseUrl === '' ? 'dashboard.php' : $baseUrl . '/dashboard.php';
 $navigationItems = [
     ['page' => 'dashboard', 'file' => 'dashboard.php', 'label' => 'Inicio', 'icon' => 'bi-house-door'],
     ['page' => 'niveles', 'file' => 'niveles.php', 'label' => 'Niveles y cursos', 'icon' => 'bi-layers'],
-    ['page' => 'alumnos', 'file' => 'alumnos.php', 'label' => 'Alumnos y matrícula', 'icon' => 'bi-people'],
+    ['page' => 'alumnos', 'file' => 'admin/index.php', 'label' => 'Alumnos y matrícula', 'icon' => 'bi-people'],
     ['page' => 'materias', 'file' => 'materias.php', 'label' => 'Materias', 'icon' => 'bi-book'],
     ['page' => 'hijos', 'file' => 'hijos.php', 'label' => 'Mis Hijos', 'icon' => 'bi-people'],
 ];
@@ -32,7 +44,9 @@ $navigationItems = [
         <ul class="nav nav-pills flex-column gap-1">
             <?php foreach ($navigationItems as $item): ?>
                 <?php if (!appHasPermission($currentUser, $item['page'])) { continue; } ?>
-                <?php $isActive = $current_page === $item['file']; ?>
+                <?php $isActive = $item['file'] === 'admin/index.php'
+                    ? $current_page === basename($item['file']) && $currentDirectory === 'admin'
+                    : $current_page === basename($item['file']); ?>
                 <?php $href = $baseUrl === '' ? $item['file'] : $baseUrl . '/' . $item['file']; ?>
                 <li class="nav-item">
                     <a href="<?= htmlspecialchars($href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="nav-link <?= $isActive ? 'active text-white' : 'link-dark'; ?>"<?= $isActive ? ' style="background-color: #2D5A3F;" aria-current="page"' : ''; ?>>
@@ -71,7 +85,9 @@ $navigationItems = [
     <ul class="nav nav-pills flex-column mb-auto gap-1">
         <?php foreach ($navigationItems as $item): ?>
             <?php if (!appHasPermission($currentUser, $item['page'])) { continue; } ?>
-            <?php $isActive = $current_page === $item['file']; ?>
+            <?php $isActive = $item['file'] === 'admin/index.php'
+                ? $current_page === basename($item['file']) && $currentDirectory === 'admin'
+                : $current_page === basename($item['file']); ?>
             <?php $href = $baseUrl === '' ? $item['file'] : $baseUrl . '/' . $item['file']; ?>
             <li class="nav-item">
                 <a href="<?= htmlspecialchars($href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="nav-link <?= $isActive ? 'active text-white' : 'link-dark'; ?>"<?= $isActive ? ' style="background-color: #2D5A3F;" aria-current="page"' : ''; ?>>
