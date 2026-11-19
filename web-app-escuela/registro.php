@@ -24,10 +24,10 @@ $apellido = '';
 $email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. Sanear los datos
-    $nombre = isset($_POST['nombre']) && is_string($_POST['nombre']) ? trim(htmlspecialchars($_POST['nombre'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')) : '';
-    $apellido = isset($_POST['apellido']) && is_string($_POST['apellido']) ? trim(htmlspecialchars($_POST['apellido'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')) : '';
-    $email = isset($_POST['email']) && is_string($_POST['email']) ? trim(htmlspecialchars($_POST['email'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')) : '';
+    // 1. Sanear los datos (solo trim: el escape se hace al imprimir, si no se duplicaría y quedaría en la BD)
+    $nombre = isset($_POST['nombre']) && is_string($_POST['nombre']) ? trim($_POST['nombre']) : '';
+    $apellido = isset($_POST['apellido']) && is_string($_POST['apellido']) ? trim($_POST['apellido']) : '';
+    $email = isset($_POST['email']) && is_string($_POST['email']) ? trim($_POST['email']) : '';
     $password = isset($_POST['password']) && is_string($_POST['password']) ? $_POST['password'] : '';
     $confirmar_password = isset($_POST['confirmar_password']) && is_string($_POST['confirmar_password']) ? $_POST['confirmar_password'] : '';
 
@@ -54,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Generar hash de la contraseña
                 $password_hash = password_hash($password, PASSWORD_BCRYPT);
                 
-                // Asignar id_rol = 3 como valor por defecto (asumiendo 'Tutor/Usuario')
-                $id_rol_default = 3; 
+                // Rol por defecto del registro: Tutor (id_rol = 3 en la tabla roles, ver tp6/consultas.sql)
+                $id_rol_default = 3;
 
                 // Insertar el nuevo usuario en la tabla `usuarios`
                 $stmt = $pdo->prepare("INSERT INTO usuarios (id_rol, nombre, apellido, email, password_hash) VALUES (:id_rol, :nombre, :apellido, :email, :password_hash)");
@@ -67,14 +67,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':password_hash' => $password_hash
                 ]);
 
-                // Redirigir a login.php con un mensaje de éxito
-                header('Location: login.php?registro=exitoso');
+                // Mensaje de éxito vía sesión para que login.php lo muestre
+                $_SESSION['registro_exitoso'] = 'Cuenta creada correctamente. Ya podés iniciar sesión.';
+                header('Location: login.php');
                 exit;
             }
         } catch (PDOException $e) {
-            // En un entorno de producción, registrar el error y mostrar un mensaje genérico.
-            // error_log("Error al registrar usuario: " . $e->getMessage());
-            $errorRegistro = 'Ocurrió un error inesperado al intentar registrar el usuario. Por favor, inténtalo de nuevo más tarde.';
+            // 23000 = restricción única uq_usuarios_email (carrera entre el SELECT y el INSERT)
+            if ($e->getCode() === '23000') {
+                $errorRegistro = 'Este correo electrónico ya está registrado. Por favor, intenta iniciar sesión o usa otro correo.';
+            } else {
+                // En un entorno de producción, registrar el error y mostrar un mensaje genérico.
+                // error_log("Error al registrar usuario: " . $e->getMessage());
+                $errorRegistro = 'Ocurrió un error inesperado al intentar registrar el usuario. Por favor, inténtalo de nuevo más tarde.';
+            }
         }
     }
 }
