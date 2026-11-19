@@ -44,3 +44,27 @@ if (!defined('APP_ENV')) {
 if (!defined('APP_BASE_URL')) {
     define('APP_BASE_URL', rtrim($getConfigValue('APP_BASE_URL', ''), '/'));
 }
+
+if (!defined('DB_HOST')) {
+    define('DB_HOST', $getConfigValue('DB_HOST', 'localhost'));
+}
+
+if (!defined('DB_NAME')) {
+    define('DB_NAME', $getConfigValue('DB_NAME', 'colegio_horizonte'));
+}
+
+if (!defined('DB_USER')) {
+    define('DB_USER', $getConfigValue('DB_USER', 'root'));
+}
+
+if (!defined('DB_PASS')) {
+    define('DB_PASS', $getConfigValue('DB_PASS', ''));
+}
+
+if (!defined('DB_CHARSET')) {
+    define('DB_CHARSET', $getConfigValue('DB_CHARSET', 'utf8mb4'));
+}
+
+if (!defined('DB_PORT')) {
+    define('DB_PORT', $getConfigValue('DB_PORT', '3306'));
+}
