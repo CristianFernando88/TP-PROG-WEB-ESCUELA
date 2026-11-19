@@ -294,6 +294,53 @@ El archivo `tp6/consultas.sql` contiene las operaciones DML para validar el esqu
 </details>
 
 
+---
+
+## Trabajo Práctico N.º 7: Persistencia y Conexión PHP-MySQL Segura
+
+El séptimo trabajo práctico consistió en conectar la aplicación PHP con la base de datos relacional MySQL (diseñada en el TP6) utilizando **PDO** (PHP Data Objects). Se implementó un módulo CRUD completo para la gestión de alumnos, integrándolo visualmente con la maquetación institucional del sitio web.
+
+### Conexión Segura y Arquitectura
+- La conexión se gestiona a través de `config/conexion.php` utilizando PDO y manejo de excepciones mediante bloques `try-catch` (`PDOException`).
+- Las credenciales de acceso (host, puerto, usuario, contraseña) están aisladas en el archivo `.env` y se cargan dinámicamente, evitando exponer datos sensibles en el código fuente.
+- Se configuró explícitamente la conexión al puerto `3307` para apuntar al servidor MariaDB local de XAMPP.
+
+### Módulo CRUD de Alumnos (Integración con la Maqueta)
+El módulo se desarrolló en la carpeta `web-app-escuela/admin/` y se integró al menú de navegación principal. Utiliza la misma estructura visual (Bootstrap 5, header, sidebar) que el resto de la aplicación:
+- **Read (index.php):** Listado de alumnos con `LEFT JOIN` a la tabla de cursos. Incluye un buscador funcional por nombre/apellido con filtros aplicados directamente en la base de datos.
+- **Create (crear.php):** Formulario de alta de alumnos con validaciones en el servidor.
+- **Update (editar.php):** Formulario de edición que precarga los datos actuales del alumno desde MySQL.
+- **Delete (eliminar.php):** Lógica de baja con validación estricta del ID recibido por GET.
+
+### Seguridad Aplicada (OWASP)
+- **Prevención de Inyección SQL:** Uso estricto de **Consultas Preparadas** (Prepared Statements) con marcadores de posición (`:parametros`) en todas las operaciones de lectura y escritura.
+- **Prevención de XSS:** Todos los datos provenientes de la base de datos son sanitizados en las vistas utilizando `htmlspecialchars()`.
+- **Validación de Entradas:** Uso de `filter_var()` con `FILTER_VALIDATE_INT` para validar los IDs antes de procesar actualizaciones o eliminaciones.
+
+### Evidencias visuales del TP7
+
+<details>
+<summary>Capturas de pantalla del CRUD integrado y la persistencia</summary>
+
+#### Listado de Alumnos con Buscador (Read)
+*Tabla conectada a MySQL con diseño unificado al sitio y buscador en tiempo real.*
+
+![Listado de Alumnos](./assets/alumnos-bd-tp7.png)
+
+#### Formulario de Alta (Create)
+*Inserción de un nuevo alumno con validaciones.*
+
+![Crear Alumno](./assets/crear-alumno-tp7.png)
+
+#### Formulario de Edición (Update)
+*Precarga de datos existentes desde la base de datos.*
+
+![Editar Alumno](./assets/editar-alumno-tp7.png)
+
+</details>
+
+
+
 ## Datos finales
 
 - **Alumno:** Cristian Fernando Barrios
