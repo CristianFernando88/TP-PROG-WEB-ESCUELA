@@ -514,7 +514,7 @@ El noveno trabajo práctico convierte el buscador del listado de alumnos en una 
 #### Búsqueda asíncrona
 *Listado de alumnos con "cos" escrito en el buscador: la tabla se actualizó en el navegador mostrando sólo las dos coincidencias, sin recargar la página.*
 
-![Búsqueda asíncrona](URL_DE_LA_IMAGEN_AQUI)
+![Búsqueda asíncrona](./assets/buscador-endpoint-tp9.png)
 
 </details>
 
