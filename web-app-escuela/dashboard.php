@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/includes/auth.php';
-$currentUser = appRequireRoleAccess('dashboard');
+$requerirPermiso = 'dashboard';
+require_once __DIR__ . '/auth_guard.php';
 require_once __DIR__ . '/config/env.php';
 
 $titulo_pagina = 'Inicio - Panel de Gestión | Colegio Horizonte';
