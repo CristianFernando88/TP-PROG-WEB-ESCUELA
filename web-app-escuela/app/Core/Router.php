@@ -102,6 +102,8 @@ final class Router
 
     private function normalizarRuta(string $ruta): string
     {
+        // Quitar extensión .php si viene en la URL (compatibilidad con enlaces viejos)
+        $ruta = preg_replace('/\.php$/i', '', $ruta);
         $ruta = '/' . trim($ruta, '/');
 
         return $ruta === '' ? '/' : $ruta;

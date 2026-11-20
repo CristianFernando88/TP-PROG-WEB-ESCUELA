@@ -95,7 +95,7 @@
                                 </div>
                             <?php endif; ?>
 
-                            <form action="<?= htmlspecialchars($base_path . '/login', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" method="POST">
+                            <form action="login.php" method="POST">
                                 <div class="mb-3">
                                     <label for="email" class="form-label fw-semibold text-dark" style="font-size: 0.85rem;">Correo electrónico</label>
                                     <div class="input-group">
@@ -119,7 +119,7 @@
                             </form>
 
                             <div class="text-center mt-4">
-                                <span class="text-muted small">¿No tenés cuenta? <a href="<?= htmlspecialchars($base_path . '/registro', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="text-success text-decoration-none fw-semibold">Registrate acá</a></span>
+                                <span class="text-muted small">¿No tenés cuenta? <a href="registro.php" class="text-success text-decoration-none fw-semibold">Registrate acá</a></span>
                             </div>
 
                             <div class="text-center mt-2">

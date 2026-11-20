@@ -62,11 +62,20 @@ class AuthController extends Controller
 
             if ($usuario && $this->usuarioModel->passwordEsValida($usuario, $password)) {
                 if ((bool) ($usuario['activo'] ?? 1)) {
+                    $rolesConfig = require dirname(__DIR__, 2) . '/config/roles.php';
+                    $rolClave = strtolower(trim($usuario['nombre_rol'] ?? ''));
+
+                    if (!isset($rolesConfig[$rolClave])) {
+                        $_SESSION['errorLogin'] = 'Tu rol todavía no tiene acceso al portal.';
+                        $this->redirect('login.php');
+                        return;
+                    }
+
                     session_regenerate_id(true); 
                     $_SESSION['usuario_id'] = (int) $usuario['id_usuario'];
-                    $_SESSION['usuario_nombre'] = htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-                    $_SESSION['rol'] = htmlspecialchars($usuario['nombre_rol'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-                    $_SESSION['email'] = htmlspecialchars($usuario['email'] ?? $email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                    $_SESSION['usuario_nombre'] = trim($usuario['nombre'] . ' ' . $usuario['apellido']);
+                    $_SESSION['rol'] = $rolClave;
+                    $_SESSION['email'] = $usuario['email'] ?? $email;
                     unset($_SESSION['old_email']); 
                     
                     $this->redirect('dashboard.php'); 
@@ -120,9 +129,9 @@ class AuthController extends Controller
 
     public function register(): void
     {
-        $nombre = trim(htmlspecialchars($_POST['nombre'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
-        $apellido = trim(htmlspecialchars($_POST['apellido'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
-        $email = trim(htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+        $nombre = trim($_POST['nombre'] ?? '');
+        $apellido = trim($_POST['apellido'] ?? '');
+        $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirmar_password = $_POST['confirmar_password'] ?? '';
 

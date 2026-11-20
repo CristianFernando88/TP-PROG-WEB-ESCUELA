@@ -89,7 +89,7 @@
                                 </div>
                             <?php endif; ?>
 
-                            <form action="<?= htmlspecialchars($base_path . '/registro', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" method="POST">
+                            <form action="registro.php" method="POST">
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label fw-semibold text-dark" style="font-size: 0.85rem;">Nombre</label>
                                     <div class="input-group">
@@ -137,7 +137,7 @@
                             </form>
 
                             <div class="text-center mt-4">
-                                <span class="text-muted small">¿Ya tenés una cuenta? <a href="<?= htmlspecialchars($base_path . '/login', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="text-success text-decoration-none fw-semibold">Iniciar sesión</a></span>
+                                <span class="text-muted small">¿Ya tenés una cuenta? <a href="login.php" class="text-success text-decoration-none fw-semibold">Iniciar sesión</a></span>
                             </div>
                         </div>
                     </div>
