@@ -1,23 +1,14 @@
-# web-app-escuela/.htaccess — Front Controller (TP10, Fase 0)
-#
-# Requiere, en C:\xampp\apache\conf\httpd.conf:
-#   - LoadModule rewrite_module modules/mod_rewrite.so   (viene cargado por defecto)
-#   - AllowOverride All                                  (viene por defecto en XAMPP)
-#
-# Estrategia: lo que es un archivo o directorio real se sirve tal cual
-# (assets/, api/, admin/, login.php, registro.php...), y todo lo demás pasa
-# por index.php, que enruta con app/Core/Router.php.
+# web-app-escuela/.htaccess — Front Controller (TP10)
 
 RewriteEngine On
 
-# 1) Archivos y directorios existentes → se sirven tal cual (no se tocan)
+# 1) Redirigir archivos legacy de autenticación hacia el Front Controller
+RewriteRule ^(login|registro|logout)\.php$ index.php [L]
+
+# 2) Archivos y directorios reales (assets/, api/, admin/) se sirven tal cual
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# 2) Todo lo demás → Front Controller (rutas limpias: /login, /registro, ...)
+# 3) Todo lo demás → Front Controller (MVC)
 RewriteRule ^ index.php [L]
-
-# Si algún día la app se sirviera desde la raíz del servidor y las rutas
-# limpias fallaran, descomentar la línea siguiente con la ruta real:
-# RewriteBase /TP-PROG-WEB-ESCUELA/web-app-escuela/
