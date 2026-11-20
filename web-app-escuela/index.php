@@ -1,15 +1,32 @@
 <?php
 declare(strict_types=1);
 
-session_start();
+/**
+ * index.php — Front Controller (TP10, Fase 0).
+ *
+ * Toda petición que no corresponda a un archivo o directorio real llega
+ * acá (gracias a .htaccess) y se resuelve con app/config/routes.php.
+ * La lógica de redirección por rol pasó a app/Controllers/HomeController.php.
+ */
 
-$roles = require __DIR__ . '/config/roles.php';
-$role = $_SESSION['rol'] ?? null;
+use App\Core\Router;
 
-if (is_string($role) && isset($roles[$role])) {
-    header('Location: dashboard.php');
-    exit;
+require __DIR__ . '/app/bootstrap.php';                    // sesión, autoload, $pdo, $roles
+$rutas = require __DIR__ . '/app/config/routes.php';       // mapa de rutas
+
+$metodo = (string) ($_SERVER['REQUEST_METHOD'] ?? 'GET');
+$ruta   = (string) (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/');
+
+// La app corre en un subdirectorio (http://localhost/TP-PROG-WEB-ESCUELA/web-app-escuela/...):
+// al Router sólo le interesan las rutas relativas ("/login").
+$base = rtrim(str_replace('\\', '/', dirname((string) ($_SERVER['SCRIPT_NAME'] ?? '/index.php'))), '/');
+
+if ($base !== '' && ($ruta === $base || str_starts_with($ruta, $base . '/'))) {
+    $ruta = substr($ruta, strlen($base));
+
+    if ($ruta === '' || $ruta[0] !== '/') {
+        $ruta = '/' . $ruta;
+    }
 }
 
-header('Location: login.php');
-exit;
+(new Router($rutas))->dispatch($metodo, $ruta);
