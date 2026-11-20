@@ -2,41 +2,65 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/config/env.php';
+require_once __DIR__ . '/config/conexion.php'; // Acceso a $pdo
 
 session_start();
 
 $roles = require __DIR__ . '/config/roles.php';
-$rolesPermitidos = array_keys($roles);
 $rolEnSesion = $_SESSION['rol'] ?? null;
 
+// Si ya hay una sesión válida, no hace falta volver a ingresar
 if (is_string($rolEnSesion) && isset($roles[$rolEnSesion])) {
     header('Location: dashboard.php');
     exit;
 }
 
-unset($_SESSION['rol']);
-$rolSeleccionado = 'admin';
 $errorLogin = '';
+$mensajeExito = '';
+
+// Mensaje dejado por registro.php: se muestra una sola vez y se borra
+if (isset($_SESSION['registro_exitoso']) && is_string($_SESSION['registro_exitoso'])) {
+    $mensajeExito = $_SESSION['registro_exitoso'];
+    unset($_SESSION['registro_exitoso']);
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = isset($_POST['email']) && is_string($_POST['email']) ? trim($_POST['email']) : '';
     $password = isset($_POST['password']) && is_string($_POST['password']) ? $_POST['password'] : '';
-    $rolRecibido = isset($_POST['rol']) && is_string($_POST['rol']) ? $_POST['rol'] : '';
 
-    if (
-        filter_var($email, FILTER_VALIDATE_EMAIL) === false
-        || trim($password) === ''
-        || !in_array($rolRecibido, $rolesPermitidos, true)
-    ) {
-        $errorLogin = 'Ingresá un correo válido, una contraseña y un rol permitido.';
-        $rolSeleccionado = in_array($rolRecibido, $rolesPermitidos, true) ? $rolRecibido : 'admin';
+    if (filter_var($email, FILTER_VALIDATE_EMAIL) === false || $password === '') {
+        $errorLogin = 'Ingresá un correo válido y tu contraseña.';
     } else {
-        session_regenerate_id(true);
-        $_SESSION['rol'] = $rolRecibido;
-        $_SESSION['email'] = $email;
+        // Buscar al usuario por email, trayendo el nombre del rol (JOIN con roles)
+        $stmt = $pdo->prepare(
+            'SELECT u.id_usuario, u.nombre, u.apellido, u.password_hash, r.nombre AS nombre_rol
+             FROM usuarios AS u
+             INNER JOIN roles AS r ON r.id_rol = u.id_rol
+             WHERE u.email = :email AND u.activo = 1'
+        );
+        $stmt->execute([':email' => $email]);
+        $usuario = $stmt->fetch();
 
-        header('Location: dashboard.php');
-        exit;
+        // Mismo mensaje para todos los fallos: no revela si el correo existe
+        if ($usuario === false || !password_verify($password, $usuario['password_hash'])) {
+            $errorLogin = 'Correo o contraseña incorrectos.';
+        } else {
+            // La app identifica el rol por la clave de config/roles.php (admin, profesor, tutor...)
+            $rolClave = strtolower(trim($usuario['nombre_rol']));
+
+            if (!isset($roles[$rolClave])) {
+                $errorLogin = 'Tu rol todavía no tiene acceso al portal. Contactá con soporte.';
+            } else {
+                session_regenerate_id(true);
+
+                $_SESSION['usuario_id'] = (int) $usuario['id_usuario'];
+                $_SESSION['usuario_nombre'] = trim($usuario['nombre'] . ' ' . $usuario['apellido']);
+                $_SESSION['rol'] = $rolClave;
+
+                header('Location: dashboard.php');
+                exit;
+            }
+        }
     }
 }
 
@@ -95,9 +119,11 @@ require_once __DIR__ . '/includes/header.php';
                                 <p class="text-muted" style="font-size: 0.9rem;">Ingresá tus datos para acceder a tu espacio.</p>
                             </div>
 
-                            <div class="alert alert-info py-2 small" role="status">
-                                Acceso simulado para pruebas: cualquier correo válido y contraseña no vacía.
-                            </div>
+                            <?php if ($mensajeExito !== ''): ?>
+                                <div class="alert alert-success py-2 small" role="status">
+                                    <?= htmlspecialchars($mensajeExito, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>
+                                </div>
+                            <?php endif; ?>
 
                             <?php if ($errorLogin !== ''): ?>
                                 <div class="alert alert-danger py-2 small" role="alert">
@@ -122,17 +148,6 @@ require_once __DIR__ . '/includes/header.php';
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="rol" class="form-label fw-semibold text-dark" style="font-size: 0.85rem;">Rol de prueba</label>
-                                    <select class="form-select bg-light py-2" id="rol" name="rol" required>
-                                        <option value="admin" <?= $rolSeleccionado === 'admin' ? 'selected' : ''; ?>>Admin</option>
-                                        <option value="directivo" <?= $rolSeleccionado === 'directivo' ? 'selected' : ''; ?>>Directivo</option>
-                                        <option value="preceptor" <?= $rolSeleccionado === 'preceptor' ? 'selected' : ''; ?>>Preceptor</option>
-                                        <option value="profesor" <?= $rolSeleccionado === 'profesor' ? 'selected' : ''; ?>>Profesor</option>
-                                        <option value="tutor" <?= $rolSeleccionado === 'tutor' ? 'selected' : ''; ?>>Tutor</option>
-                                    </select>
-                                </div>
-
                                 <button type="submit" class="btn text-white w-100 py-3 fw-semibold rounded-3 mt-3 shadow-sm d-flex align-items-center justify-content-center gap-2" style="background-color: #2D5A3F; transition: background 0.2s;">
                                     Ingresar al portal
                                     <i class="bi bi-arrow-right"></i>
@@ -140,6 +155,10 @@ require_once __DIR__ . '/includes/header.php';
                             </form>
 
                             <div class="text-center mt-4">
+                                <span class="text-muted small">¿No tenés cuenta? <a href="registro.php" class="text-success text-decoration-none fw-semibold">Regístrate acá</a></span>
+                            </div>
+
+                            <div class="text-center mt-3">
                                 <span class="text-muted small">¿Necesitás ayuda? <a href="mailto:<?= htmlspecialchars(SUPPORT_EMAIL, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" class="text-success text-decoration-none fw-semibold">Contactar a soporte</a></span>
                             </div>
                         </div>
