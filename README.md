@@ -445,14 +445,78 @@ También se verificó:
 ![Error 403](./assets/tp8/conttrol-acceso.png)
 
 #### Cierre de sesión
-*Barra superior del dashboard con el botón verde "Cerrar sesión" (esquina superior derecha, junto al perfil del usuario). Al pulsarlo, `logout.php` vacía `$_SESSION`, borra la cookie y destruye la sesión, y el sitio vuelve al formulario de acceso.*
+*Evidencia con las **herramientas de desarrollo de Chrome**: F12 → pestaña **Application** → **Storage** → **Cookies** → `http://localhost`, donde se ve la cookie de sesión real que emite PHP en lugar de una descripción teórica.*
 
-![Login](./assets/tp8/datos-cookies-logueado.png)
-![Logout](./assets/tp8/datos-cookies-deslogueado.png)
+**Sesión activa** — el dashboard está abierto como **Tutor** y en el panel aparece la cookie `PHPSESSID` con el ID de esa sesión (dominio `localhost`, ruta `/`, tamaño 35):
+
+![Cookies de sesión con el usuario logueado](./assets/tp8/datos-cookies-logueado.png)
+
+**Después de pulsar "Cerrar sesión"** — `logout.php` cumple los tres pasos (vaciar `$_SESSION`, destruir la cookie con `setcookie(..., time() - 42000, ...)` y `session_destroy()`) y redirige al login. En el mismo panel, `PHPSESSID` ahora muestra un **valor completamente distinto** (p. ej. `2nejk84i8…` en lugar de `cjh097ff32…`).
+
+![Cookies de sesión después del cierre](./assets/tp8/datos-cookies-deslogueado.png)
+
+**¿Por qué sigue apareciendo una cookie?** Porque al cargar, `login.php` vuelve a llamar a `session_start()` y eso genera una sesión **nueva** con un ID nuevo. Lo que demuestra que el cierre funcionó no es que la fila desaparezca, sino que **el ID cambió**: el valor anterior ya no corresponde a ninguna sesión en el servidor, por lo que no sirve para recuperar el acceso.
+
+**Cómo reproducirla:** iniciá sesión → F12 → *Application* → *Cookies* → `http://localhost` → copiá el valor de `PHPSESSID` → cerrá sesión → compará el valor con el que aparece en el login. Deben ser distintos.
 
 </details>
 
 
+
+---
+
+## Trabajo Práctico N.º 9: AJAX con Fetch API y Manipulación del DOM
+
+El noveno trabajo práctico convierte el buscador del listado de alumnos en una búsqueda **asíncrona**: al escribir en el campo de búsqueda se consulta un endpoint JSON con la Fetch API y se actualiza únicamente el cuerpo de la tabla, **sin recargar la página**. Todo el desarrollo es JavaScript nativo (Vanilla JS), sin librerías externas.
+
+### Endpoint JSON (`web-app-escuela/api/buscar_alumnos.php`)
+
+- Responde siempre con `Content-Type: application/json; charset=utf-8` y lee el parámetro GET `q` aplicando `trim()`.
+- Misma consulta que el listado del CRUD (TP7): `LEFT JOIN` con `cursos` para traer el curso concatenado y filtro `LIKE` sobre `nombre` o `apellido` **sólo si `q` tiene contenido**; con `q` vacío devuelve todos los alumnos, ordenados por apellido.
+- **PDO con consultas preparadas** en ambas ramas y bloque `try-catch` sobre `PDOException`.
+- Éxito → `HTTP 200` con `{"status":"success","data":[...]}`; error → `HTTP 500` con `{"status":"error","message":"..."}`, registrando el detalle en `error_log()` sin exponerlo al cliente.
+- **Autenticación:** sin una sesión válida responde `HTTP 401` en JSON (nunca un redirect HTML), para que el `fetch()` reciba siempre una respuesta JSON.
+
+### Frontend (`web-app-escuela/admin/js/buscar_alumnos.js`)
+
+- `admin/index.php` expone los puntos de anclaje: `#inputBusqueda`, `#formBusqueda`, `#tablaAlumnosBody` y el `<script>` al final del `<main>`.
+- Escucha `DOMContentLoaded` y el evento `input` del campo de búsqueda.
+- **Debounce de 300 ms:** cada tecla reinicia el temporizador, de modo que sólo se envía una petición cuando el usuario deja de escribir.
+- `fetch()` con `async/await` hacia `../api/buscar_alumnos.php?q=...`, usando `encodeURIComponent()` y envuelto en `try...catch`.
+- Función `escapar()` aplicada a todo dato antes de insertarlo en el HTML (prevención de XSS).
+- Reemplaza el contenido del `<tbody>` con los datos recibidos; si no hay resultados muestra la fila *"No se encontraron alumnos"*.
+- Conserva el diseño de la tabla (`table-striped`, badges de estado) y los botones **Editar** (`btn-warning`) y **Eliminar** (`btn-danger` con `confirm()`).
+- Un contador de peticiones descarta las respuestas viejas que lleguen fuera de orden, y el botón "Buscar" (submit del formulario) saltea el debounce con `preventDefault()`.
+
+### Pruebas realizadas
+
+<details>
+<summary>Comprobaciones en el navegador</summary>
+
+| Prueba | Resultado |
+|---|---|
+| Escribir `cos` | ✅ 2 filas (Emma y Tomás Costa) y 1 petición `?q=cos` → HTTP 200 |
+| Página sin recargar | ✅ la URL y el documento se mantienen; sólo cambia el `<tbody>` |
+| **Debounce**: 5 eventos `input` seguidos | ✅ se envía **1 sola** petición |
+| Sin resultados (`zzzznoexiste`) | ✅ fila "No se encontraron alumnos" |
+| Vaciar el campo | ✅ vuelven los 5 alumnos |
+| Escape de HTML | ✅ con un nombre `<img src=x onerror=alert(1)>` en la BD, el `innerHTML` quedó escapado y no se inyectó ningún elemento |
+| Sin sesión | ✅ la API responde `401` en JSON |
+| Consola del navegador | ✅ sin errores ni warnings |
+
+</details>
+
+### Evidencias visuales del TP9
+
+<details>
+<summary>Capturas de pantalla</summary>
+
+#### Búsqueda asíncrona
+*Listado de alumnos con "cos" escrito en el buscador: la tabla se actualizó en el navegador mostrando sólo las dos coincidencias, sin recargar la página.*
+
+![Búsqueda asíncrona](URL_DE_LA_IMAGEN_AQUI)
+
+</details>
 
 ## Datos finales
 
