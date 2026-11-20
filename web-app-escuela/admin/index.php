@@ -65,13 +65,13 @@ require_once __DIR__ . '/../includes/header.php';
 
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
-                    <form method="GET" action="index.php" class="row g-3 mb-4">
+                    <form method="GET" action="index.php" id="formBusqueda" class="row g-3 mb-4">
                         <div class="col-md-8">
-                            <label for="q" class="visually-hidden">Buscar alumnos</label>
+                            <label for="inputBusqueda" class="visually-hidden">Buscar alumnos</label>
                             <input
                                 type="search"
                                 name="q"
-                                id="q"
+                                id="inputBusqueda"
                                 class="form-control bg-light py-2"
                                 placeholder="Buscar por nombre o apellido..."
                                 value="<?= htmlspecialchars($q, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>"
@@ -88,10 +88,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
                     </form>
 
-                    <?php if ($alumnos === []): ?>
-                        <div class="alert alert-info mb-0">No hay alumnos que coincidan con la búsqueda.</div>
-                    <?php else: ?>
-                        <div class="table-responsive">
+                    <div class="table-responsive">
                             <table class="table table-striped table-hover align-middle mb-0">
                                 <thead>
                                     <tr class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">
@@ -101,7 +98,12 @@ require_once __DIR__ . '/../includes/header.php';
                                         <th scope="col" class="border-0 pb-3 text-end">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tablaAlumnosBody">
+                                    <?php if ($alumnos === []): ?>
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">No se encontraron alumnos</td>
+                                        </tr>
+                                    <?php endif; ?>
                                     <?php foreach ($alumnos as $alumno): ?>
                                         <?php
                                         $alumnoId = (int) $alumno['id_alumno'];
@@ -140,9 +142,10 @@ require_once __DIR__ . '/../includes/header.php';
                                 </tbody>
                             </table>
                         </div>
-                    <?php endif; ?>
                 </div>
             </div>
+
+            <script src="js/buscar_alumnos.js"></script>
         </main>
     </div>
 </div>
