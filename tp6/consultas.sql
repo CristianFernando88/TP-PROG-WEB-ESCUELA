@@ -20,11 +20,11 @@ INSERT INTO materias (id_materia, nombre, descripcion) VALUES
     (1, 'Matemática', 'Cátedra de demostración');
 
 -- CREATE: crear las cuentas de prueba.
--- Los valores password_hash son ficticios para el ejercicio y no son hashes de producción.
+-- Los password_hash son hashes bcrypt reales de la contraseña 'password123' (verificables con password_verify).
 INSERT INTO usuarios (id_usuario, id_rol, nombre, apellido, email, password_hash, activo) VALUES
-    (1, 1, 'Sofía', 'Méndez', 'sofia.mendez@colegiohorizonte.edu.ar', 'hash_demo_admin', 1),
-    (2, 2, 'Federico', 'Gómez', 'federico.gomez@colegiohorizonte.edu.ar', 'hash_demo_profesor', 1),
-    (3, 3, 'Lucía', 'Costa', 'lucia.costa@colegiohorizonte.edu.ar', 'hash_demo_tutor', 1);
+    (1, 1, 'Sofía', 'Méndez', 'sofia.mendez@colegiohorizonte.edu.ar', '$2y$10$3KyLw2cchs2in61IyQ.vx.mamn7nXgr3RB4Yss4Kcb8nxmeJjl6dm', 1),
+    (2, 2, 'Federico', 'Gómez', 'federico.gomez@colegiohorizonte.edu.ar', '$2y$10$NYCXwX2kx4wQn04uoUl24e5sLxIlsQn2zTjeoBbQG7NfId7SBweIK', 1),
+    (3, 3, 'Lucía', 'Costa', 'lucia.costa@colegiohorizonte.edu.ar', '$2y$10$vQsEMXNIDIukt.qi4FGJOeoGJraO5Obyb7AJqPrsvDenYaJPhinqy', 1);
 
 -- CREATE: inscribir dos alumnos en 1.º A de Secundario.
 INSERT INTO alumnos (id_alumno, id_curso, nombre, apellido, estado) VALUES
