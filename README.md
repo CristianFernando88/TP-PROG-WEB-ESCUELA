@@ -339,6 +339,119 @@ El módulo se desarrolló en la carpeta `web-app-escuela/admin/` y se integró a
 
 </details>
 
+---
+
+## Trabajo Práctico N.º 8: Manejo de Estado, Sesiones y Autenticación
+
+El octavo trabajo práctico implementa el módulo completo de autenticación sobre la base de datos del TP6: registro de cuentas con contraseñas encriptadas, inicio de sesión real verificado contra MySQL, protección de rutas reutilizable y control de acceso por roles. Todo el desarrollo se encuentra en `web-app-escuela/`.
+
+### Módulos implementados
+
+<details>
+<summary><code>registro.php</code> — Registro de usuarios</summary>
+
+Formulario con Nombre, Apellido, Email, Contraseña y Repetir Contraseña, con validación en el servidor:
+
+- Campos vacíos, formato de email con `filter_var(..., FILTER_VALIDATE_EMAIL)` y coincidencia de contraseñas.
+- Consulta preparada que verifica que el email no esté registrado previamente.
+- Contraseña encriptada con `password_hash($password, PASSWORD_BCRYPT)` e inserción mediante **PDO con consultas preparadas** en la tabla `usuarios` (columna `password_hash`), asignando el rol **Tutor (`id_rol = 3`)**.
+- Redirección a `login.php` dejando el mensaje de éxito en `$_SESSION['registro_exitoso']`, que se muestra una sola vez y se borra después.
+- "Sticky form": ante un error los campos se repueblan con `htmlspecialchars()`; las contraseñas nunca se repueblan.
+
+</details>
+
+<details>
+<summary><code>login.php</code> — Inicio de sesión real</summary>
+
+Se eliminó el select de roles simulado del TP4:
+
+- Busca al usuario por email con un `INNER JOIN` entre `usuarios` y `roles` para traer el nombre del rol, y comprueba la contraseña con `password_verify()`.
+- Un mensaje genérico ("Correo o contraseña incorrectos.") evita revelar si el correo existe (enumeración de usuarios).
+- Si es correcto: `session_regenerate_id(true)` **antes** de guardar los datos (prevención de fijación de sesión) y luego `$_SESSION['usuario_id']`, `$_SESSION['usuario_nombre']` y `$_SESSION['rol']`, con redirección a `dashboard.php`.
+- Muestra el mensaje `$_SESSION['registro_exitoso']` dejado por el registro y lo borra después de mostrarlo.
+- Incluye el enlace "¿No tenés cuenta? Regístrate acá".
+
+</details>
+
+<details>
+<summary><code>auth_guard.php</code> — Protección de rutas reutilizable</summary>
+
+Script único incluido en cada vista protegida, siempre antes de cualquier salida HTML:
+
+```php
+$requerirPermiso = 'alumnos';
+require_once __DIR__ . '/auth_guard.php';
+```
+
+- Inicia la sesión, valida que `$_SESSION['rol']` exista en `config/roles.php` y deja listo `$currentUser`.
+- Si la sesión no es válida: vacía `$_SESSION`, ejecuta `session_destroy()` y redirige a `login.php` con ruta absoluta (funciona igual desde `admin/`, evitando el 404 del redirect relativo).
+- **Control de acceso por roles:** responde `403` cuando el rol no tiene el permiso requerido.
+- Reemplaza el chequeo duplicado que existía en los cuatro archivos de `admin/`.
+
+</details>
+
+<details>
+<summary><code>logout.php</code> — Cierre de sesión</summary>
+
+- `session_unset()` para vaciar el array `$_SESSION`.
+- `session_destroy()` para destruir los datos de la sesión en el servidor.
+- `setcookie(..., time() - 42000, ...)` para eliminar la cookie de sesión del navegador.
+- Redirección a `login.php`.
+
+</details>
+
+### Matriz de pruebas de seguridad
+
+<details>
+<summary>Resultados por rol al acceder directo a las URLs</summary>
+
+| Rol | `dashboard.php` | `hijos.php` | `materias.php` | `niveles.php` | `admin/index.php` |
+|---|---|---|---|---|---|
+| **Admin** | ✅ Acceso | 403 | ✅ Acceso | ✅ Acceso | ✅ Acceso |
+| **Tutor** | ✅ Acceso | ✅ Acceso | 403 | 403 | **403** |
+| **Profesor** | ✅ Acceso | 403 | ✅ Acceso | 403 | **403** |
+| **Sin sesión** | → login | → login | → login | → login | → login |
+
+También se verificó:
+
+- El acceso sin sesión a `admin/index.php` redirige a `login.php` (antes el redirect relativo resolvía a `/admin/login.php` y daba **404**).
+- `session_regenerate_id(true)` se ejecuta antes de escribir en `$_SESSION`.
+- `logout.php` cumple los tres pasos: vaciar `$_SESSION`, destruir la cookie y `session_destroy()`.
+- Un ciclo completo de CRUD (alta y baja de alumno) funciona con el guard activo.
+- `php -l` sin errores en los 11 archivos modificados.
+
+</details>
+
+### Evidencias visuales del TP8
+
+<details>
+<summary>Capturas de pantalla</summary>
+
+#### Login real
+*Formulario de acceso sin el select de roles simulado del TP4, con el enlace "¿No tenés cuenta? Regístrate acá" debajo del botón "Ingresar al portal".*
+
+![Login Real](./assets/tp8/login-real.png)
+
+#### Dashboard por rol
+*Panel visto con el rol **Tutor**: saludo personalizado, tarjetas de indicadores y menú lateral filtrado por permisos (sólo "Inicio" e "Mis Hijos").*
+
+![Dashboard por rol admin](./assets/tp8/dasboard-session-admin.png)
+![Dashboard por rol profe](./assets/tp8/dashboard-rol-profesor.png)
+![Dashboard por rol profe](./assets/tp8/dashboard-rol-tutor.png)
+
+#### Error 403 por control de acceso
+*Sesión iniciada como **Tutor** intentando entrar a "Alumnos y matrícula" (`admin/index.php`): `auth_guard.php` responde "No tenés permiso para acceder a esta sección." en lugar de mostrar el listado.*
+
+![Error 403](./assets/tp8/conttrol-acceso.png)
+
+#### Cierre de sesión
+*Barra superior del dashboard con el botón verde "Cerrar sesión" (esquina superior derecha, junto al perfil del usuario). Al pulsarlo, `logout.php` vacía `$_SESSION`, borra la cookie y destruye la sesión, y el sitio vuelve al formulario de acceso.*
+
+![Login](./assets/tp8/datos-cookies-logueado.png)
+![Logout](./assets/tp8/datos-cookies-deslogueado.png)
+
+</details>
+
 
 
 ## Datos finales
