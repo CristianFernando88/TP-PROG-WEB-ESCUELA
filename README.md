@@ -518,6 +518,48 @@ El noveno trabajo práctico convierte el buscador del listado de alumnos en una 
 
 </details>
 
+---
+
+## Trabajo Práctico N.º 10: Refactorización a MVC e Implementación con Framework
+
+El décimo trabajo práctico se divide en dos partes: la refactorización completa del módulo de autenticación de nuestra aplicación nativa a un patrón arquitectónico **Modelo-Vista-Controlador (MVC)** con Front Controller, y la creación de un módulo independiente utilizando el framework profesional **Laravel**.
+
+### Parte A: Refactorización Nativa a MVC (`web-app-escuela/`)
+
+- **Front Controller (`index.php`)**: Punto de entrada único que centraliza el tráfico de la aplicación web apoyándose en el reescribidor de Apache (`.htaccess`).
+- **Enrutamiento (`app/Core/Router.php` y `app/config/routes.php`)**: Interpreta las peticiones HTTP (GET/POST), normaliza las rutas (incluyendo compatibilidad con llamadas legacy a `.php`) y despacha al controlador adecuado.
+- **Modelo (`app/Models/Usuario.php`):** Encapsula todas las operaciones contra la tabla `usuarios` (búsqueda por email, verificación de duplicados, creación con BCRYPT) usando PDO con consultas preparadas.
+- **Controlador (`app/Controllers/AuthController.php`):** Gestiona la lógica de la solicitud para el login, registro y cierre de sesión, aplicando validaciones, control de sesiones y redirecciones bajo el patrón **PRG** (Post/Redirect/Get).
+- **Vistas (`app/Views/auth/`):** Separación estricta del marcado HTML y Bootstrap para `login.php` y `register.php`, libres de lógica de negocio o consultas SQL.
+
+### Parte B: Módulo en Framework — Laravel (`tp10-framework/`)
+
+- Se inicializó un entorno profesional con **Laravel** en la carpeta `tp10-framework/`.
+- **Conexión a Base de Datos:** Configurado en el `.env` para apuntar a la base de datos relacional MySQL existente (`colegio_horizonte`), utilizando el mismo esquema del TP6.
+- **Módulo Independiente de Cursos:**
+  - **Ruta:** Configurada en `routes/web.php` (`GET /cursos`).
+  - **Controlador:** `app/Http/Controllers/CursoController.php` para gestionar la petición.
+  - **Modelo Eloquent:** `app/Models/Curso.php` mapeado explícitamente a la tabla `cursos`.
+  - **Vista Blade:** `resources/views/cursos/index.blade.php` para renderizar el listado institucional de cursos y divisiones con diseño responsivo.
+
+### Evidencias visuales del TP10
+
+<details>
+<summary>Capturas de pantalla</summary>
+
+#### Parte A: Login MVC Nativo
+*Formulario de acceso operando a través del Front Controller y el AuthController.*
+
+![Login MVC Nativo](./assets/estructura-mvc-tp10.png)
+![Login MVC Nativo](./assets/login-mvc-tp10.png)
+
+#### Parte B: Módulo de Cursos en Laravel
+*Vista en Blade listando los registros de MySQL mediante Eloquent ORM.*
+
+![Laravel Cursos](./assets/modulo-curso-laravel-tp10.png)
+
+</details>
+
 ## Datos finales
 
 - **Alumno:** Cristian Fernando Barrios
